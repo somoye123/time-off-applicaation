@@ -11,16 +11,17 @@ export default class LandingPage extends Component {
         </nav>
         <div className="card text-center">
           <div className="card-body">
-            <h5 className="card-title">TimeOff.Management"</h5>
+            <h5 className="card-title">TimeOff.Management</h5>
             <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
+            Open source, simple yet powerful absence management software for small and medium size business
             </p>
+            <p className="card-text">Endorsed by hundred of sofware developers</p>
             <button class="btn btn-primary">
               Sign Up
             </button>
           </div>
         </div>
+        <h6 className="text-center text-capitalize">simple employees absence management</h6>
       </React.Fragment>
     );
   }
