@@ -4,8 +4,13 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "font-awesome": "^4.7.0",
+    "formik": "^1.5.1",
     "react": "^16.8.4",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-calendar": "^2.18.1",
     "react-dom": "^16.8.4",
+    "react-infinite-calendar": "^2.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.8"
   },
