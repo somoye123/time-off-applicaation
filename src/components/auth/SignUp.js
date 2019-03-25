@@ -114,13 +114,13 @@ export default class SignUp extends Component {
     return (
       <React.Fragment>
         <Navbar1 />
-        <div className="form-wrapper">
+        <div className="container">
           <h1 className="text-capitalize text-center">Help us know you</h1>
           <form
             className="container mx-auto"
             onSubmit={this.handleSubmit}
             noValidate
-          >
+>
             <div className="form-group">
               <label htmlFor="companyName">Company Name</label>
               <input
@@ -134,123 +134,129 @@ export default class SignUp extends Component {
               />
               {this.state.invaildError && this.state.companyName === null ? (
                 <p className="text-danger">* Company name is required</p>
-              ) : (
+                ) : (
                 ""
               )}
               {<span className="text-danger">{formErrors.companyName}</span>}
             </div>
 
-            <div className="form-group">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="First Name"
-                id="firstName"
-                name="firstName"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.firstName === null ? (
-                <p className="text-danger">* First name is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.firstName}</span>}
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="First Name"
+                  id="firstName"
+                  name="firstName"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.firstName === null ? (
+                  <p className="text-danger">* First name is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.firstName}</span>}
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Last Name"
+                  id="lastName"
+                  name="lastName"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.lastName === null ? (
+                  <p className="text-danger">* Last name is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.lastName}</span>}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Last Name"
-                id="lastName"
-                name="lastName"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.lastName === null ? (
-                <p className="text-danger">* Last name is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.lastName}</span>}
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter a Valid Email"
+                  id="email"
+                  name="email"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.email === null ? (
+                  <p className="text-danger">* Email is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.email}</span>}
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  id="password"
+                  name="password"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.password === null ? (
+                  <p className="text-danger">* Password is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.password}</span>}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter a Valid Email"
-                id="email"
-                name="email"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.email === null ? (
-                <p className="text-danger">* Email is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.email}</span>}
-            </div>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="country">Country</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Your Nationality"
+                  id="country"
+                  list="countryList"
+                />
+                <datalist id="countryList">
+                  <option value="Nigeria" />
+                  <option value="Ghana" />
+                  <option value="Angola" />
+                  <option value="Zambia" />
+                  <option value="Togo" />
+                  <option value="Senegal" />
+                  <option value="South Africa" />
+                </datalist>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                id="password"
-                name="password"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.password === null ? (
-                <p className="text-danger">* Password is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.password}</span>}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="country">Country</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Your Nationality"
-                id="country"
-                list="countryList"
-              />
-              <datalist id="countryList">
-                <option value="Nigeria" />
-                <option value="Ghana" />
-                <option value="Angola" />
-                <option value="Zambia" />
-                <option value="Togo" />
-                <option value="Senegal" />
-                <option value="South Africa" />
-              </datalist>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="timezone">Time Zone</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Your Time Zone"
-                id="timezone"
-                list="zoneList"
-              />
-              <datalist id="zoneList">
-                <option value="West Africa/Lagos" />
-                <option value="Europe/London" />
-                <option value="America/Califonia" />
-                <option value="India/NewDelhi" />
-              </datalist>
+              <div className="form-group col-md-6">
+                <label htmlFor="timezone">Time Zone</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Your Time Zone"
+                  id="timezone"
+                  list="zoneList"
+                />
+                <datalist id="zoneList">
+                  <option value="West Africa/Lagos" />
+                  <option value="Europe/London" />
+                  <option value="America/Califonia" />
+                  <option value="India/NewDelhi" />
+                </datalist>
+              </div>
             </div>
 
             {formvalid(this.state) ? (

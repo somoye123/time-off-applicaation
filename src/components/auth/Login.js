@@ -79,7 +79,7 @@ export default class Login extends Component {
     return (
       <React.Fragment>
         <Navbar1 />
-        <div className="form-wrapper">
+        <div className="container">
           <h1 className="text-capitalize text-center">login form</h1>
           <form
             className="container mb-5"
