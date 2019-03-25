@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import LandingPage from "./components/home/LandingPage";
-import AbsenceForm from "./components/dashboard/AbsenceForm";
+// import AbsenceForm from "./components/dashboard/AbsenceForm";
 import EmployeeDashboard from "./components/dashboard/EmployeeDashboard";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
@@ -19,10 +19,10 @@ class App extends Component {
             <Route path="/Login" exact component={Login} />
             <Route path="/employee-dashboard" exact component={EmployeeDashboard} />
             <Route
-              path="/EmployeeDashboard:id"
+              path="/EmployeeDashboard/teamView"
               component={TeamViewDashboard}
             />
-            <Route path="/employee-dashboard/new-absence" exact component={AbsenceForm} />
+            {/* <Route path="/employee-dashboard/new-absence" exact component={AbsenceForm} /> */}
             <Route component={LandingPage} />
           </Switch>
         </React.Fragment>

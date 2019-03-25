@@ -142,3 +142,207 @@ export default class AbsenceForm extends Component {
     )
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const allAbsence = [
+//     { type: 'Vacation', days: 3, startDate: '01/02/2019', stopDate: '04/02/2019', approvalBy: 'James Bond', status: 'Approved' },
+//     { type: 'Attend Meetup', days: 5, startDate: '11/03/2019', stopDate: '16/03/2019', approvalBy: 'Thomas Edison', status: 'Approved' },
+//     { type: 'Christmas Break', days: 4, startDate: '23/03/2018', stopDate: '27/02/2018', approvalBy: 'Mayowa', status: 'Approved' }
+// ]
+
+
+
+
+<h2 className="text-center mt-4 mb-3 ">
+  Calendar  <button onClick={this.handeleShowMore} className="btn btn-primary">{
+    !this.state.showMore ? 'Show More' : 'Show Less'
+  }</button> </h2>
+  <div className="row">
+
+    {!this.state.showMore ?
+      calendarDate.map((item, index) => {
+        return <div key={index} className="col-md-3 ">
+          <Calendar
+            value={item}
+          />
+        </div>
+      }) : MoreCalendarDate.map((item, index) => {
+        return <div key={index} className="col-md-3 mb-2">
+          <Calendar
+            value={item}
+          />
+        </div>
+      })
+    }
+  </div>
+  <h3 className="text-center mt-3">All Absenses</h3>
+  <div className="row mb-5 py-3">
+    <div className="col-12">
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Number Of Days</th>
+            <th>Date</th>
+            <th>Approved By</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {
+            allAbsence.map((item, index) => {
+              return <tr key={index}>
+                <td>{item.type}</td>
+                <td>{item.days}</td>
+                <td>From: {item.startDate} To: {item.stopDate}</td>
+                <td>{item.approvalBy}</td>
+                <td>{item.status}</td>
+              </tr>
+            })
+          }
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+                </div >
+
+
+  <h2 className="text-center mt-4 mb-3 ">
+    Calendar  <button onClick={this.handeleShowMore} className="btn btn-secondary">{
+      !this.state.showMore ? 'Show More' : 'Show Less'
+    }</button> </h2>
+  <div className="row">
+
+    {!this.state.showMore ?
+      calendarDate.map((item, index) => {
+        return <div key={index} className="col-md-3 ">
+          <Calendar
+            value={item}
+          />
+        </div>
+      }) : MoreCalendarDate.map((item, index) => {
+        return <div key={index} className="col-md-3 mb-2">
+          <Calendar
+            value={item}
+          />
+        </div>
+      })
+    }
+
+
+  </div>
+
+  <div>
+    <div className="d-flex justify-content-center container">
+      <p className="text-secondary">All Absences</p>
+    </div>
+
+    <div className="d-flex justify-content-center dashboard-absences mx-3">
+      <table class="table container table-sm">
+        <thead>
+          <tr>
+
+            <th scope="col">Types</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Dates</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col">Approved By</th>
+          </tr>
+        </thead>
+        <tbody className="">
+          <tr>
+            <td>Study leave</td>
+            <td>10</td>
+            <td>2021-1-15 - 2021-1-25</td>
+            <td>Approved</td>
+            <td><button><i class="fas fa-trash-alt"></i></button></td>
+            <td>Kunle</td>
+          </tr>
+
+          <tr>
+            <td>Health</td>
+            <td>5</td>
+            <td>2019-3-22 - 2019-3-27</td>
+            <td>Pending</td>
+            <td><button><i class="fas fa-trash-alt"></i></button></td>
+            <td>Mayowa</td>
+          </tr>
+
+          <tr>
+            <td>Holiday</td>
+            <td>10</td>
+            <td>2019-4-5 - 2019-4-15</td>
+            <td>Pending</td>
+            <td><button><i class="fas fa-trash-alt"></i></button></td>
+            <td>Kunle</td>
+          </tr>
+          <tr>
+
+            <td>Time Off</td>
+            <td>14</td>
+            <td>2019-5-01 - 2019-5-15</td>
+            <td>Pending</td>
+            <td><button><i class="fas fa-trash-alt"></i></button></td>
+            <td>Mayowa</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <Footer />
+        </div >
+    )
+}
+}

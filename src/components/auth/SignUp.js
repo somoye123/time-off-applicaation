@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Navbar1 from "../Navbars/AuthNavbar";
 import { Link } from "react-router-dom";
-import Footer from "../footer/footer.js";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -120,7 +119,7 @@ export default class SignUp extends Component {
             className="container mx-auto"
             onSubmit={this.handleSubmit}
             noValidate
->
+          >
             <div className="form-group">
               <label htmlFor="companyName">Company Name</label>
               <input
@@ -134,7 +133,7 @@ export default class SignUp extends Component {
               />
               {this.state.invaildError && this.state.companyName === null ? (
                 <p className="text-danger">* Company name is required</p>
-                ) : (
+              ) : (
                 ""
               )}
               {<span className="text-danger">{formErrors.companyName}</span>}
@@ -279,7 +278,6 @@ export default class SignUp extends Component {
             </small>
           </form>
         </div>
-        <Footer/>
       </React.Fragment>
     );
   }
