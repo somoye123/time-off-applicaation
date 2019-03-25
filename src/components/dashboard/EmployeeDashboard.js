@@ -66,7 +66,7 @@ export default class EmployeeDashboard extends Component {
           <div className="row mt-5">
             <div className="col-sm-10 col-md-6 col-lg-3 ">
               <div className="card">
-                <div className="card-header bg-primary text-light">
+                <div className="card-header bg-secondary text-light">
                   Days Remaining
                 </div>
                 <div className="card-body">
@@ -77,7 +77,7 @@ export default class EmployeeDashboard extends Component {
             </div>
             <div className="col-sm-10 col-md-6 col-lg-3 ">
               <div className="card">
-                <div className="card-header bg-primary text-light">
+                <div className="card-header bg-secondary text-light">
                   Available Request
                 </div>
                 <div className="card-body">
@@ -100,7 +100,7 @@ export default class EmployeeDashboard extends Component {
             </div>
             <div className="col-sm-10 col-md-6 col-lg-3">
               <div className="card">
-                <div className="card-header bg-primary text-light">
+                <div className="card-header bg-secondary text-light">
                   Used so far
                 </div>
                 <div className="card-body">

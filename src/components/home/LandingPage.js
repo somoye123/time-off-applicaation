@@ -42,7 +42,7 @@ export default class LandingPage extends Component {
                 src={vacation}
                 alt="vacation"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Vacation</h5>
@@ -61,7 +61,7 @@ export default class LandingPage extends Component {
                 src={holiday}
                 alt="holiday"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Holiday</h5>
@@ -80,7 +80,7 @@ export default class LandingPage extends Component {
                 src={violence}
                 alt="violence"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Violence</h5>
@@ -97,7 +97,7 @@ export default class LandingPage extends Component {
             </div>
 
             <div className="carousel-item" data-interval="5000">
-              <img src={sick} alt="sick" className="d-block w-100" height="580px" />
+              <img src={sick} alt="sick" className="d-block w-100" height="600px" />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Sick</h5>
                 <p>
@@ -117,7 +117,7 @@ export default class LandingPage extends Component {
                 src={bereavement}
                 alt="bereavement"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Bereavement</h5>
@@ -140,7 +140,7 @@ export default class LandingPage extends Component {
                 src={sabbatical}
                 alt="sabbatical"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Sabbatical</h5>
@@ -159,7 +159,7 @@ export default class LandingPage extends Component {
                 src={juryDuty}
                 alt="juryDuty"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Jury Duty</h5>
@@ -180,7 +180,7 @@ export default class LandingPage extends Component {
                 src={paternity}
                 alt="paternity"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Paternity</h5>
@@ -199,7 +199,7 @@ export default class LandingPage extends Component {
                 src={maternity}
                 alt="maternity"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Maternity</h5>
@@ -218,7 +218,7 @@ export default class LandingPage extends Component {
                 src={emergency}
                 alt="emergency"
                 className="d-block w-100"
-                height="580px"
+                height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
                 <h5>Emergency Child Care Leave</h5>

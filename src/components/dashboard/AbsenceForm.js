@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
 import EmployeeHeader from "../Navbars/DashboardNavbar";
 
-const FillForm = "please fill out an absence form, if any. Thank You";
+const FillForm = "Fill out the form below";
 
 const leaveType = [
   { name: 'Maternity Leave', days: 20 },
@@ -110,233 +110,78 @@ export default class AbsenceForm extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <EmployeeHeader />
-        <p>{FillForm}</p>
-<div className="container">
-<form action="" method="post">
-<fieldset>
-  <div className="form-container">
-  <div className="form-group">
-  <select name="" onClick={this.handeleLeavetype} id="exampleFormControlSelect1" className="form-control" required>
-    {
-      leaveType.map((item, index) => {
-        return <option key={index} value={item.name}/>
-      })
-    }
-  </select>
-    {
-    (this.state.leaveType=== '' && this.state.showError)
-    ?<small className="text-danger">Leave type is required</small>
-    :''
-    }
-</div></div></fieldset></form></div>      </React.Fragment>
-    )
-  }
-}
-
-
-  
-                {
-                  (this.state.leaveType === '' && this.state.showError) ?
-                    <small className="text-danger">*leave type is required</small> :
-                    ''
-                }
-              </div>
-
-              <div className="d-flex">
-
-                <div className="form-group">
-                  <label for="begin">Begin</label>
-                  <input type="date" id="start" name="start" min={date} value={this.state.startTime} onChange={this.handleStartTime} required>
-                  </input>
-                </div>
-
-
-                <div className="form-group">
-                  <label htmlFor="end">To</label>
-                  <input type="date" value={this.state.stopTime} onChange={this.handleStopTime}
-                    min={this.state.startTime} id="end" name="end" required>
-                  </input>
-                </div>
-
-
-                <div className="form-group">
-                  <label for="name">Duration</label>
-                  <input type="text" value={this.state.diffStartTimeStopTime.includes('-') ? '0 Days' : this.state.diffStartTimeStopTime} id="duration" name="duration" disabled />
-                  {
-                    ((this.state.diffStartTimeStopTime === '0 Days' || this.state.diffStartTimeStopTime.includes('-'))
-                      && this.state.showError) ?
-                      <small className="text-danger">invalid duration must be more than 0 Days</small> : ''
-                  }
-                </div>
-
-              </div>
-
-
-
-              <div className="form-group">
-                <label for="exampleFormControlTextarea1">State a valid reason</label>
-                <textarea className="form-control" id="exampleFormControlTextarea1"
-                  rows="3" required></textarea>
-              </div>
-
-              <div>
-                <button type="submit" onClick={this.hamdleFormSubmit}
-                  className="my-1 btn btn-primary btn-lg">
-                  Submit Form
-                    </button>
-              </div>
-
-            </div>
-          </fieldset>
-        </form>
-      </div>
-
-    </div>
-  )
-}
-}
-
-export default Abscence;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  render() {
-    return (
-      <React.Fragment className="container absence mt-3 align-center ">
-        <div className="card align-center">
+    <React.Fragment>
+      <EmployeeHeader />
+      <div className="container mt-3 align-center">
+        <div className="card align-center bg-success">
           <div className="card-header text-center">
-            <h5>Request For Leave</h5>
+            <h5>{FillForm}</h5>
           </div>
           <div className="card-body">
             <div className="row">
               <div className="col-12">
                 <div className="form-group">
-                  <label htmlFor="exampleFormControlSelect1"><h6>Leave Type</h6></label>
-                  <select className="form-control" id="exampleFormControlSelect1">
+                  <select name="" onClick={this.handeleLeavetype} id="exampleFormControlSelect1" className="form-control" required>
                     {
-                      typeOfTimeOff.map(item => {
-                        return <option key={item.days}>{item.name}</option>
+                      leaveType.map((item, index) => {
+                        return <option key={index}>{item.name}</option>
                       })
                     }
-
                   </select>
+                  {
+                   (this.state.leaveType=== '' && this.state.showError)
+                   ?<small className="text-danger">Leave type is required</small>
+                   :''
+                  }
                 </div>
               </div>
             </div>
-            <h6>From:</h6>
             <div className="row">
               <div className="col-4">
-                <select className="form-control">
-                  <option>All day</option>
-                  <option>Morning</option>
-                  <option>Afternoon</option>
-                </select>
-              </div>
-              <div className="col-8">
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-calendar" ></i></span>
+                  <div className="form-group">
+                    <label htmlFor="begin">Begin
+                      <input type="date" id="begin" name="start" min={date} value={this.state.startTime} onChange={this.handleStartTime} required />
+                    </label>
                   </div>
-                  <input type="date" min={date} value={this.state.startTime} onChange={this.handleStartTime}
-                    className="form-control" />
-                </div>
               </div>
-            </div>
-            <h6>To:</h6>
-            <div className="row">
-
               <div className="col-4">
-                <select className="form-control">
-                  <option>All day</option>
-                  <option>Morning</option>
-                  <option>Afternoon</option>
-                </select>
-              </div>
-              <div className="col-8">
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1"><i className="fa fa-calendar" ></i></span>
+                  <div className="form-group">
+                    <label htmlFor="end">To
+                      <input type="date" name="end" value={this.state.stopTime} onChange={this.handleStopTime} min={this.state.startTime} id="end" required />
+                    </label>
                   </div>
-                  <input value={this.state.stopTime} onChange={this.handleStopTime} type="date"
-                    min={this.state.startTime} className="form-control" />
-                </div>
               </div>
-            </div>
-            <h6>Duration</h6>
-            <div className="row">
-              <div className="col-12">
-                <input
-                  value={this.state.diffStartTimeStopTime.includes('-') ? '0 Days' : this.state.diffStartTimeStopTime}
-                  className="form-control" disabled />
-                {
-                  ((this.state.diffStartTimeStopTime === '0 Days' || this.state.diffStartTimeStopTime.includes('-'))
-                    && this.state.showError) ?
-                    <span className="text-danger">invalid duration must be more than 0 Days</span> : ''
-                }
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-12">
+              <div className="col-4">
                 <div className="form-group">
-                  <label ><h6>Comment (Optional)</h6></label>
-                  <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  <label htmlFor="duration">
+                    <input type="text" value={this.state.diffStartTimeStopTime.includes('-')
+                      ? '0 Days'
+                      : this.state.diffStartTimeStopTime} id="duration" name="duration" disabled/>
+                  </label>
+                  {
+                    ((this.state.diffStartTimeStopTime === '0 Days' || this.state.diffStartTimeStopTime.includes('-')) && this.state.showError)
+                    ? <small className="text-danger">Duration must be more than 0 Days</small>
+                    : ''
+                  }
                 </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                  <div className="form-group">
+                    <label htmlFor="reason"><h6>Reason for the time-off request</h6>
+                      <textarea style={{width:"100%"}} name="comment" id="reason" rows="3" className="form-control" required></textarea>
+                    </label>
+                  </div>
               </div>
             </div>
           </div>
           <div className="card-footer">
-            <button onClick={this.hamdleFormSubmit} className="btn btn-primary">Submit</button>
+            <button onClick={this.hamdleFormSubmit} className="my-1 btn btn-primary btn-lg">Submit Request</button>
           </div>
         </div>
-      </React.Fragment>
+      </div>   
+    </React.Fragment>
     )
   }
 }
-
-
-
-
