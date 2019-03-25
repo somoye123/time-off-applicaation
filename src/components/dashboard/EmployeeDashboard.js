@@ -173,9 +173,9 @@ export default class EmployeeDashboard extends Component {
                   <td>2021-1-15 - 2021-1-25</td>
                   <td>Approved</td>
                   <td>
-                    <button>
-                      <i class="fas fa-trash-alt" />
-                    </button>
+                    <span className="mx-2 text-danger">
+                      <i className="fas fa-trash" />
+                    </span>
                   </td>
                   <td>Kunle</td>
                 </tr>
@@ -185,9 +185,9 @@ export default class EmployeeDashboard extends Component {
                   <td>2019-3-22 - 2019-3-27</td>
                   <td>Pending</td>
                   <td>
-                    <button>
-                      <i class="fas fa-trash-alt" />
-                    </button>
+                    <span className="mx-2 text-danger">
+                      <i className="fas fa-trash" />
+                    </span>
                   </td>
                   <td>Mayowa</td>
                 </tr>
@@ -197,9 +197,9 @@ export default class EmployeeDashboard extends Component {
                   <td>2019-4-5 - 2019-4-15</td>
                   <td>Pending</td>
                   <td>
-                    <button>
-                      <i class="fas fa-trash-alt" />
-                    </button>
+                    <span className="mx-2 text-danger">
+                      <i className="fas fa-trash" />
+                    </span>
                   </td>
                   <td>Kunle</td>
                 </tr>
@@ -209,9 +209,9 @@ export default class EmployeeDashboard extends Component {
                   <td>2019-5-01 - 2019-5-15</td>
                   <td>Pending</td>
                   <td>
-                    <button>
-                      <i class="fas fa-trash-alt" />
-                    </button>
+                    <span className="mx-2 text-danger">
+                      <i className="fas fa-trash" />
+                    </span>
                   </td>
                   <td>Mayowa</td>
                 </tr>
