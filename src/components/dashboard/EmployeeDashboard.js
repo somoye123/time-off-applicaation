@@ -44,13 +44,11 @@ const employeeDetail = {
 
 export default class EmployeeDashboard extends Component {
   state = {
-    showMore: false,
-    showMoreText: "Show More"
+    showMore: false
   };
   handeleShowMore = () => {
     this.setState({
-      showMore: !this.state.showMore,
-      showMoreText: "Show Less"
+      showMore: !this.state.showMore
     });
   };
   render() {
@@ -102,7 +100,7 @@ export default class EmployeeDashboard extends Component {
             </div>
             <div className="col-sm-10 col-md-6 col-lg-3">
               <div className="card">
-                <div className="card-header bg-secondary text-light">
+                <div className="card-header bg-primary text-light">
                   Used so far
                 </div>
                 <div className="card-body">
@@ -129,7 +127,98 @@ export default class EmployeeDashboard extends Component {
             </div>
           </div>
         </div>
-        <div className="container"></div>
+        <div className="container">
+          <h2 className="text-center mt-4 mb-3">
+            Calendar
+            <button onClick={this.handeleShowMore} className="btn btn-primary">
+              {!this.state.showMore ? "Show More" : "Show Less"}
+            </button>
+          </h2>
+          <div className="row">
+            {!this.state.showMore
+              ? calendarDate.map((item, index) => {
+                  return (
+                    <div key={index} className="col-md-3 ">
+                      <Calendar value={item} />
+                    </div>
+                  );
+                })
+              : MoreCalendarDate.map((item, index) => {
+                  return (
+                    <div key={index} className="col-md-3 mb-2">
+                      <Calendar value={item} />
+                    </div>
+                  );
+                })}
+          </div>
+          <div className="d-flex justify-content-center  mt-4 mb-3  container">
+            <h4>All Absences</h4>
+          </div>
+          <div className="row mb-5 py-3">
+            <table class="table container table-sm ">
+              <thead>
+                <tr>
+                  <th scope="col">Types</th>
+                  <th scope="col">Duration</th>
+                  <th scope="col">Dates</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" />
+                  <th scope="col">Approved By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Study leave</td>
+                  <td>10</td>
+                  <td>2021-1-15 - 2021-1-25</td>
+                  <td>Approved</td>
+                  <td>
+                    <button>
+                      <i class="fas fa-trash-alt" />
+                    </button>
+                  </td>
+                  <td>Kunle</td>
+                </tr>
+                <tr>
+                  <td>Health</td>
+                  <td>5</td>
+                  <td>2019-3-22 - 2019-3-27</td>
+                  <td>Pending</td>
+                  <td>
+                    <button>
+                      <i class="fas fa-trash-alt" />
+                    </button>
+                  </td>
+                  <td>Mayowa</td>
+                </tr>
+                <tr>
+                  <td>Holiday</td>
+                  <td>10</td>
+                  <td>2019-4-5 - 2019-4-15</td>
+                  <td>Pending</td>
+                  <td>
+                    <button>
+                      <i class="fas fa-trash-alt" />
+                    </button>
+                  </td>
+                  <td>Kunle</td>
+                </tr>
+                <tr>
+                  <td>Time Off</td>
+                  <td>14</td>
+                  <td>2019-5-01 - 2019-5-15</td>
+                  <td>Pending</td>
+                  <td>
+                    <button>
+                      <i class="fas fa-trash-alt" />
+                    </button>
+                  </td>
+                  <td>Mayowa</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <Footer />
       </React.Fragment>
     );

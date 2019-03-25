@@ -7,10 +7,11 @@ export default class welcome extends Component {
       <React.Fragment>
         <div className="container">
           <div className="row">
-            <div className="img-center">
-              <img src={Picture} alt="user" height="100px" width="100px"/>
+            <div className="col" />
+            <div className="co-1 my-3">
+              <img src={Picture} alt="user" height="100px" width="100px" />
             </div>
-            <div class="w-100" />
+            <div className="col" />
           </div>
         </div>
       </React.Fragment>

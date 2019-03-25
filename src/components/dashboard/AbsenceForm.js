@@ -1,47 +1,62 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
+import 'bootstrap/dist/css/bootstrap.css';
+import EmployeeHeader from "../Navbars/DashboardNavbar";
 
-const typeOfTimeOff = [
-  { name: 'Vacation', days: 2 },
-  { name: 'Maternity Leave', days: 10 },
-  { name: 'Medical Checkup', days: 5 },
-  { name: 'Marriage Purpose', days: 7 },
+const FillForm = "please fill out an absence form, if any. Thank You";
+
+const leaveType = [
+  { name: 'Maternity Leave', days: 20 },
+  { name: 'Health', days: 10 },
+  { name: 'Marriage Purpose', days: 5 },
+  { name: 'Travel', days: 7 },
+  { name: 'Vacation', days: 5 },
+  { name: 'Others', days: 5 },
 ]
 
 let date = new Date();
 date = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
-
 export default class AbsenceForm extends Component {
   state = {
+    fields: {},
+    errors: {},
+    leaveType: '',
     startTime: date,
     stopTime: date,
     diffStartTimeStopTime: '0 Days',
     showError: false
   }
 
-  handleStartTime = e => {
-    let startTimeValue = e.target.value;
-    this.setState({ startTime: startTimeValue })
-    const start = startTimeValue.replace(/-/g, '');
-    const stop = this.state.stopTime.replace(/-/g, '');
-    const diff = stop - start
-    this.setState({ diffStartTimeStopTime: `${diff} Days` })
-    console.log(this.state.diffStartTimeStopTime)
+  handeleLeavetype = e => {
+    console.log(e.target.value)
+    this.setState({ leaveType: e.target.value })
   }
+
+    handleStartTime = e => {
+      let startTimeValue = e.target.value;
+      this.setState({ startTime: startTimeValue })
+      const start = startTimeValue.replace(/-/g, '');
+      const stop = this.state.stopTime.replace(/-/g, '');
+      let diff = start - stop
+      diff = this.calculateDuration(diff)
+      this.setState({ diffStartTimeStopTime: `${diff} Days` })
+      console.log(this.state.diffStartTimeStopTime)
+    }
 
   handleStopTime = e => {
     let stopTimeValue = e.target.value;
     this.setState({ stopTime: stopTimeValue })
     const start = this.state.startTime.replace(/-/g, '');
     const stop = stopTimeValue.replace(/-/g, '');
-    const diff = stop - start
-    this.setState({ diffStartTimeStopTime: `${diff} Days` })
+    let diff = stop - start
+    diff = this.calculateDuration(diff)
+    this.setState({ diffStartTimeStopTime: `${diff}` })
     console.log(diff)
   }
-
+  
   hamdleFormSubmit = () => {
     if (!this.state.diffStartTimeStopTime.includes('-') && this.state.diffStartTimeStopTime !== '0 Days') {
       console.log(this.state.diffStartTimeStopTime)
-      alert('saved wait for approval')
+      alert('Form submitted sucessfully, please await it approval')
     } else {
       this.setState({ showError: true })
     }
@@ -49,6 +64,185 @@ export default class AbsenceForm extends Component {
       this.setState({ showError: true })
     }
   }
+
+  calculateDuration = (days) => {
+    let not = undefined;
+    let value = days
+    let result = days
+    let day, month, weeks
+    if (value >= 30) {
+      month = value / 30;
+      month = Math.floor(month)
+      value = value % 30
+    } if (value >= 7) {
+      day = value % 7;
+      weeks = value / 7;
+      weeks = Math.floor(weeks);
+    } else {
+      day = value
+    }
+    if (month !== not && (weeks === not && day === not)) {
+      result = `${month} Month`
+    }
+    if ((month === not && day === 0) && weeks !== not) {
+      result = `${weeks} Week`
+    }
+    console.log(day)
+    if (day !== not && (month === not && weeks === not)) {
+      result = `${day} day`
+    }
+    if (month !== not && weeks !== not && day !== not) {
+      result = `${month} Month ${weeks} Week ${day} Day`
+    }
+    console.log(weeks)
+    if (month !== not && weeks !== not && day === 0) {
+      result = `${month} Month ${weeks} Week`
+    }
+    if (month !== not && weeks === not && day !== not) {
+      result = `${month} Month ${day} Day`
+    }
+    if (month === not && weeks && day) {
+      result = `${weeks} Week ${day} Day`
+    }
+    // result = `${month} Month ${weeks} Week ${day} Day`
+    return result
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <EmployeeHeader />
+        <p>{FillForm}</p>
+<div className="container">
+<form action="" method="post">
+<fieldset>
+  <div className="form-container">
+  <div className="form-group">
+  <select name="" onClick={this.handeleLeavetype} id="exampleFormControlSelect1" className="form-control" required>
+    {
+      leaveType.map((item, index) => {
+        return <option key={index} value={item.name}/>
+      })
+    }
+  </select>
+    {
+    (this.state.leaveType=== '' && this.state.showError)
+    ?<small className="text-danger">Leave type is required</small>
+    :''
+    }
+</div></div></fieldset></form></div>      </React.Fragment>
+    )
+  }
+}
+
+
+  
+                {
+                  (this.state.leaveType === '' && this.state.showError) ?
+                    <small className="text-danger">*leave type is required</small> :
+                    ''
+                }
+              </div>
+
+              <div className="d-flex">
+
+                <div className="form-group">
+                  <label for="begin">Begin</label>
+                  <input type="date" id="start" name="start" min={date} value={this.state.startTime} onChange={this.handleStartTime} required>
+                  </input>
+                </div>
+
+
+                <div className="form-group">
+                  <label htmlFor="end">To</label>
+                  <input type="date" value={this.state.stopTime} onChange={this.handleStopTime}
+                    min={this.state.startTime} id="end" name="end" required>
+                  </input>
+                </div>
+
+
+                <div className="form-group">
+                  <label for="name">Duration</label>
+                  <input type="text" value={this.state.diffStartTimeStopTime.includes('-') ? '0 Days' : this.state.diffStartTimeStopTime} id="duration" name="duration" disabled />
+                  {
+                    ((this.state.diffStartTimeStopTime === '0 Days' || this.state.diffStartTimeStopTime.includes('-'))
+                      && this.state.showError) ?
+                      <small className="text-danger">invalid duration must be more than 0 Days</small> : ''
+                  }
+                </div>
+
+              </div>
+
+
+
+              <div className="form-group">
+                <label for="exampleFormControlTextarea1">State a valid reason</label>
+                <textarea className="form-control" id="exampleFormControlTextarea1"
+                  rows="3" required></textarea>
+              </div>
+
+              <div>
+                <button type="submit" onClick={this.hamdleFormSubmit}
+                  className="my-1 btn btn-primary btn-lg">
+                  Submit Form
+                    </button>
+              </div>
+
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  )
+}
+}
+
+export default Abscence;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   render() {
     return (
       <React.Fragment className="container absence mt-3 align-center ">
@@ -146,203 +340,3 @@ export default class AbsenceForm extends Component {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const allAbsence = [
-//     { type: 'Vacation', days: 3, startDate: '01/02/2019', stopDate: '04/02/2019', approvalBy: 'James Bond', status: 'Approved' },
-//     { type: 'Attend Meetup', days: 5, startDate: '11/03/2019', stopDate: '16/03/2019', approvalBy: 'Thomas Edison', status: 'Approved' },
-//     { type: 'Christmas Break', days: 4, startDate: '23/03/2018', stopDate: '27/02/2018', approvalBy: 'Mayowa', status: 'Approved' }
-// ]
-
-
-
-
-<h2 className="text-center mt-4 mb-3 ">
-  Calendar  <button onClick={this.handeleShowMore} className="btn btn-primary">{
-    !this.state.showMore ? 'Show More' : 'Show Less'
-  }</button> </h2>
-  <div className="row">
-
-    {!this.state.showMore ?
-      calendarDate.map((item, index) => {
-        return <div key={index} className="col-md-3 ">
-          <Calendar
-            value={item}
-          />
-        </div>
-      }) : MoreCalendarDate.map((item, index) => {
-        return <div key={index} className="col-md-3 mb-2">
-          <Calendar
-            value={item}
-          />
-        </div>
-      })
-    }
-  </div>
-  <h3 className="text-center mt-3">All Absenses</h3>
-  <div className="row mb-5 py-3">
-    <div className="col-12">
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Number Of Days</th>
-            <th>Date</th>
-            <th>Approved By</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-
-          {
-            allAbsence.map((item, index) => {
-              return <tr key={index}>
-                <td>{item.type}</td>
-                <td>{item.days}</td>
-                <td>From: {item.startDate} To: {item.stopDate}</td>
-                <td>{item.approvalBy}</td>
-                <td>{item.status}</td>
-              </tr>
-            })
-          }
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-                </div >
-
-
-  <h2 className="text-center mt-4 mb-3 ">
-    Calendar  <button onClick={this.handeleShowMore} className="btn btn-secondary">{
-      !this.state.showMore ? 'Show More' : 'Show Less'
-    }</button> </h2>
-  <div className="row">
-
-    {!this.state.showMore ?
-      calendarDate.map((item, index) => {
-        return <div key={index} className="col-md-3 ">
-          <Calendar
-            value={item}
-          />
-        </div>
-      }) : MoreCalendarDate.map((item, index) => {
-        return <div key={index} className="col-md-3 mb-2">
-          <Calendar
-            value={item}
-          />
-        </div>
-      })
-    }
-
-
-  </div>
-
-  <div>
-    <div className="d-flex justify-content-center container">
-      <p className="text-secondary">All Absences</p>
-    </div>
-
-    <div className="d-flex justify-content-center dashboard-absences mx-3">
-      <table class="table container table-sm">
-        <thead>
-          <tr>
-
-            <th scope="col">Types</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Dates</th>
-            <th scope="col">Status</th>
-            <th scope="col"></th>
-            <th scope="col">Approved By</th>
-          </tr>
-        </thead>
-        <tbody className="">
-          <tr>
-            <td>Study leave</td>
-            <td>10</td>
-            <td>2021-1-15 - 2021-1-25</td>
-            <td>Approved</td>
-            <td><button><i class="fas fa-trash-alt"></i></button></td>
-            <td>Kunle</td>
-          </tr>
-
-          <tr>
-            <td>Health</td>
-            <td>5</td>
-            <td>2019-3-22 - 2019-3-27</td>
-            <td>Pending</td>
-            <td><button><i class="fas fa-trash-alt"></i></button></td>
-            <td>Mayowa</td>
-          </tr>
-
-          <tr>
-            <td>Holiday</td>
-            <td>10</td>
-            <td>2019-4-5 - 2019-4-15</td>
-            <td>Pending</td>
-            <td><button><i class="fas fa-trash-alt"></i></button></td>
-            <td>Kunle</td>
-          </tr>
-          <tr>
-
-            <td>Time Off</td>
-            <td>14</td>
-            <td>2019-5-01 - 2019-5-15</td>
-            <td>Pending</td>
-            <td><button><i class="fas fa-trash-alt"></i></button></td>
-            <td>Mayowa</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <Footer />
-        </div >
-    )
-}
-}
