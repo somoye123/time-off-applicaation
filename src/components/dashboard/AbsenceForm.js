@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
 import EmployeeHeader from "../Navbars/DashboardNavbar";
+import Footer from "../footer/footer";
 
 const FillForm = "Fill out the form below";
 
@@ -181,6 +182,7 @@ export default class AbsenceForm extends Component {
           </div>
         </div>
       </div>   
+      <Footer/>
     </React.Fragment>
     )
   }
