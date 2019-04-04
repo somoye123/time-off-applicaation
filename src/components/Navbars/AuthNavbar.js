@@ -7,7 +7,7 @@ export default class Navbar1 extends Component {
       <React.Fragment>
         <nav className="navbar navbar-light bg-dark py-3">
           <Link className="text-light" to="/">
-            TimeOff.Management <span className="sr-only">(current)</span>
+            TimeOff.Management
           </Link>
           <form action="" className="form-inline">
             <Link to="/SignUp">

@@ -7,7 +7,7 @@ export default class Footer extends React.Component {
       <React.Fragment>
         <div className="bg-dark fixed-bottom py-2">
           <footer className="text-center">
-            <h6 className="ml-5">&copy; 2019, Somoye</h6>
+            <h6 className="text-light">&copy; 2019, Somoye</h6>
           </footer>
         </div>
       </React.Fragment>
