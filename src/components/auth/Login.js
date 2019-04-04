@@ -56,7 +56,7 @@ export default class Login extends Component {
     switch (name) {
       case "email":
         formErrors.email = emailRegex.test(value) ? (
-          <p className="text-success">Valid email</p>
+          ""
         ) : (
           <p className="text-danger">Provide a valid email address</p>
         );
