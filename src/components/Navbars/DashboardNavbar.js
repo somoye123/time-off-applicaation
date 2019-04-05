@@ -6,7 +6,7 @@ export default class DashboardNavbar extends Component {
   render() {
     return (
       <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark navbar-fixed-top">
+        <nav className="navbar navbar-expand-lg navbar-light bg-dark navbar-fixed-top py-3">
           <button
             className="navbar-toggler"
             type="button"
@@ -44,7 +44,7 @@ export default class DashboardNavbar extends Component {
             </ul>
             <form action="" className="form-inline">
               <Link to="/login">
-                <button className="btn btn-danger my-sm-0 mx-auto">
+                <button className="btn btn-outline-danger my-sm-0 mx-auto">
                   Log Out
                 </button>
               </Link>
