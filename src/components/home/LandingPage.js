@@ -9,8 +9,6 @@ import maternity from "./images/maternity.jpg";
 import paternity from "./images/paternity.jpg";
 import sabbatical from "./images/sabbatical.jpg";
 import sick from "./images/sick.jpg";
-import vacation from "./images/vacation.jpg";
-import violence from "./images/violence.jpg";
 import Footer from "../footer/footer";
 
 export default class LandingPage extends Component {
@@ -39,16 +37,16 @@ export default class LandingPage extends Component {
           <div className="carousel-inner">
             <div className="carousel-item active" data-interval="5000">
               <img
-                src={vacation}
-                alt="vacation"
+                src={sabbatical}
+                alt="sabbatical"
                 className="d-block w-100"
                 height="600px"
               />
               <div className="carousel-caption d-none d-md-block">
-                <h5>Vacation</h5>
+                <h5>Sabbatical</h5>
                 <p>
-                  A paid, extended period of recreation and fun away from
-                  work.
+                  Paid professional leave for the purpose of pursuing
+                  study/education related to the job.
                 </p>
                 <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
@@ -63,32 +61,11 @@ export default class LandingPage extends Component {
                 className="d-block w-100"
                 height="600px"
               />
-              <div className="carousel-caption d-none d-md-block">
+              <div className="carousel-caption d-none d-md-block text-danger">
                 <h5>Holiday</h5>
                 <p>
                   A paid holiday is time off from work for rest and
                   recreation on a publicly recognized holiday.
-                </p>
-                <Link to="/SignUp">
-                  <button className="btn btn-primary">Sign Up</button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="carousel-item" data-interval="5000">
-              <img
-                src={violence}
-                alt="violence"
-                className="d-block w-100"
-                height="600px"
-              />
-              <div className="carousel-caption d-none d-md-block">
-                <h5>Violence</h5>
-                <p>
-                  Paid leave granted to victims of domestic violence, sexual
-                  assault, and/or stalking in order that the employee might
-                  obtain medical attention, counseling, relocation, legal
-                  assistance and other victims services.
                 </p>
                 <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
@@ -137,31 +114,12 @@ export default class LandingPage extends Component {
 
             <div className="carousel-item" data-interval="5000">
               <img
-                src={sabbatical}
-                alt="sabbatical"
-                className="d-block w-100"
-                height="600px"
-              />
-              <div className="carousel-caption d-none d-md-block">
-                <h5>Sabbatical</h5>
-                <p>
-                  Paid professional leave for the purpose of pursuing
-                  study/education related to the job.
-                </p>
-                <Link to="/SignUp">
-                  <button className="btn btn-primary">Sign Up</button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="carousel-item" data-interval="5000">
-              <img
                 src={juryDuty}
                 alt="juryDuty"
                 className="d-block w-100"
                 height="600px"
               />
-              <div className="carousel-caption d-none d-md-block">
+              <div className="carousel-caption d-none d-md-block text-success">
                 <h5>Jury Duty</h5>
                 <p>
                   An authorized absence from work that enables employees to
@@ -201,7 +159,7 @@ export default class LandingPage extends Component {
                 className="d-block w-100"
                 height="600px"
               />
-              <div className="carousel-caption d-none d-md-block">
+              <div className="carousel-caption d-none d-md-block text-primary">
                 <h5>Maternity</h5>
                 <p>
                   Paid leave for a woman who is pregnant or has just given
@@ -220,7 +178,7 @@ export default class LandingPage extends Component {
                 className="d-block w-100"
                 height="600px"
               />
-              <div className="carousel-caption d-none d-md-block">
+              <div className="carousel-caption d-none d-md-block text-dark">
                 <h5>Emergency Child Care Leave</h5>
                 <p>
                   Paid leave granted for situations causing an employee’s

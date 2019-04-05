@@ -6,7 +6,7 @@ export default class DashboardNavbar extends Component {
   render() {
     return (
       <React.Fragment>
-        <nav className="navbar navbar-expand-lg navbar-light bg-primary navbar-fixed-top">
+        <nav className="navbar navbar-expand-lg navbar-light bg-dark navbar-fixed-top">
           <button
             className="navbar-toggler"
             type="button"
