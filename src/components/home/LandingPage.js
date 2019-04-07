@@ -75,7 +75,8 @@ export default class LandingPage extends Component {
             </div>
             <div>
               <img alt="Emergency" className="d-block w-100" src={emergency} />
-              <h5 className="my-3 text-center">Emergency Child Care Leave</h5>
+              <h5 className="mt-2 mb-4 text-center">Emergency Child  Care Leave</h5>
+              <h5 className="text-center">.</h5>
             </div>
           </div>
         </div>
