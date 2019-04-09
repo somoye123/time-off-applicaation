@@ -7,7 +7,7 @@ const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
-const formValid = ({ formErrors, ...rest }) => {
+const formvalid = ({ formErrors, ...rest }) => {
   let valid = true;
 
   // validate form errors being empty
@@ -15,7 +15,7 @@ const formValid = ({ formErrors, ...rest }) => {
     val.length > 0 && (valid = false);
   });
 
-  // validate the form was filled out
+  // validate the form was filled
   Object.values(rest).forEach(val => {
     val === null && (valid = false);
   });
@@ -23,28 +23,34 @@ const formValid = ({ formErrors, ...rest }) => {
   return valid;
 };
 
-export default class Login extends Component {
+export default class SignUp extends Component {
   state = {
     email: null,
     password: null,
-    invalidError: false,
+    invaildError: false,
     formErrors: {
       email: "",
       password: ""
     }
   };
 
+  errorSate = {
+    companyNameError: false
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-
-    if (formValid(this.state)) {
-      let user = { email: this.state.email, password: this.state.password };
+    if (formvalid(this.state)) {
+      let user = {
+        email: this.state.email,
+        password: this.state.password
+      };
       user = JSON.stringify(user);
       console.log(user);
-      localStorage.setItem("currentUser", user);
-      alert("You login successfully");
+      localStorage.setItem("NewUser", user);
+      alert("Details submitted successful.");
     } else {
-      this.setState({ invalidError: true });
+      this.setState({ invaildError: true });
     }
   };
 
@@ -52,28 +58,28 @@ export default class Login extends Component {
     e.preventDefault();
     const { name, value } = e.target;
     let formErrors = { ...this.state.formErrors };
-
     switch (name) {
       case "email":
         formErrors.email = emailRegex.test(value) ? (
           ""
         ) : (
-          <p className="text-danger">Provide a valid email address</p>
-        );
+            <p className="text-danger">Provide a valid email address</p>
+          );
         break;
       case "password":
         formErrors.password =
           value.length < 7 ? (
             <p className="text-danger">Weak password</p>
           ) : (
-            <p className="text-success">Strong password</p>
-          );
+              <p className="text-success">Strong password</p>
+            );
         break;
       default:
         break;
     }
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
   };
+
   render() {
     const { formErrors } = this.state;
     return (
@@ -87,59 +93,59 @@ export default class Login extends Component {
             noValidate
             style={{ padding: "2% 20%" }}
           >
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter a Valid Email"
-                id="email"
-                name="email"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.email === null ? 
-               <p className="text-danger">* Email is required</p>
-              : 
-                ""
-              }
-              {<span className="text-danger">{formErrors.email}</span>}
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                id="password"
-                name="password"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.password === null ? (
-                <p className="text-danger">* Password is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.password}</span>}
-            </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter a Valid Email"
+                  id="email"
+                  name="email"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.email === null ? (
+                  <p className="text-danger">* Email is required</p>
+                ) : (
+                    ""
+                  )}
+                {<span className="text-danger">{formErrors.email}</span>}
+              </div>
 
-            {formValid(this.state) ? (
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  id="password"
+                  name="password"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.password === null ? (
+                  <p className="text-danger">* Password is required</p>
+                ) : (
+                    ""
+                  )}
+                {<span className="text-danger">{formErrors.password}</span>}
+              </div>
+
+            {formvalid(this.state) ? (
               <button
                 onClick={this.handleSubmit}
                 type="button"
                 className="btn btn-primary text-light"
               >
                 <Link className="text-light" to="/employee-dashboard">
-                  Login
+                  Login 
                 </Link>
               </button>
             ) : (
-              <button type="submit" className="btn btn-primary text-light">
-                Login
+                <button type="submit" className="btn btn-primary text-light">
+                  Login
               </button>
-            )}
+              )}
           </form>
         </div>
         <Footer/>

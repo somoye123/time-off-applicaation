@@ -22,7 +22,7 @@ export default class LandingPage extends Component {
             <h1 className="text-center">Time Off Management</h1>
             <p className="lead mt-lead">
               Let us help you keep full track of your leave period such as
-              Vacation, Holiday, Sabbatical, Maternity.{" "}
+              Vacation, Holiday, Sabbatical, Maternity, Paternity, Medicals.
             </p>
             <p className="text-center lead">
               <Link to="/SignUp">
@@ -75,7 +75,7 @@ export default class LandingPage extends Component {
             </div>
             <div>
               <img alt="Emergency" className="d-block w-100" src={emergency} />
-              <h5 className="mt-2 mb-4 text-center">Emergency Child  Care Leave</h5>
+              <h5 className="mt-2 mb-3 text-center">Emergency Child  Care Leave</h5>
               <h5 className="text-center">.</h5>
             </div>
           </div>

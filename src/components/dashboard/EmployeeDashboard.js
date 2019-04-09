@@ -170,7 +170,7 @@ export default class EmployeeDashboard extends Component {
                 <tr>
                   <td>Study leave</td>
                   <td>10</td>
-                  <td>2021-1-15 - 2021-1-25</td>
+                  <td>2021/1/15 - 2021/1/25</td>
                   <td>Approved</td>
                   <td>
                     <span className="mx-2 text-danger">
@@ -182,7 +182,7 @@ export default class EmployeeDashboard extends Component {
                 <tr>
                   <td>Health</td>
                   <td>5</td>
-                  <td>2019-3-22 - 2019-3-27</td>
+                  <td>2019/3/22 - 2019/3/27</td>
                   <td>Pending</td>
                   <td>
                     <span className="mx-2 text-danger">
@@ -194,7 +194,7 @@ export default class EmployeeDashboard extends Component {
                 <tr>
                   <td>Holiday</td>
                   <td>10</td>
-                  <td>2019-4-5 - 2019-4-15</td>
+                  <td>2019/4/5 - 2019/4/15</td>
                   <td>Pending</td>
                   <td>
                     <span className="mx-2 text-danger">
@@ -206,7 +206,7 @@ export default class EmployeeDashboard extends Component {
                 <tr>
                   <td>Time Off</td>
                   <td>14</td>
-                  <td>2019-5-01 - 2019-5-15</td>
+                  <td>2019/5/01 - 2019/5/15</td>
                   <td>Pending</td>
                   <td>
                     <span className="mx-2 text-danger">
