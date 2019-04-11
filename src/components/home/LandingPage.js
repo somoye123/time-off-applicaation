@@ -26,7 +26,7 @@ export default class LandingPage extends Component {
             </p>
             <p className="text-center lead">
               <Link to="/SignUp">
-                <button className="btn btn-outline-success">Sign Up</button>
+                <button className="btn btn-success">Sign Up</button>
               </Link>
             </p>
           </div>
@@ -100,9 +100,9 @@ export default class LandingPage extends Component {
                   Paid professional leave for the purpose of pursuing
                   study/education related to the job.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -119,9 +119,9 @@ export default class LandingPage extends Component {
                   A paid holiday is time off from work for rest and recreation
                   on a publicly recognized holiday.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -140,9 +140,9 @@ export default class LandingPage extends Component {
                   immediate family. May overlap with FMLA, ADA, STD/LTD, Workers
                   Compensation.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -162,9 +162,9 @@ export default class LandingPage extends Component {
                   daughters-in-law, grandparents, grandchildren, brothers,
                   sisters, children, and members of the same household.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -182,9 +182,9 @@ export default class LandingPage extends Component {
                   complete compulsory jury duty service in an established
                   federal or state court without sustaining a financial loss.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -201,9 +201,9 @@ export default class LandingPage extends Component {
                   Paid leave from work for fathers following the birth of their
                   child.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -220,9 +220,9 @@ export default class LandingPage extends Component {
                   Paid leave for a woman who is pregnant or has just given
                   birth.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -243,9 +243,9 @@ export default class LandingPage extends Component {
                   of the child’s school, or an unexpected need to pick up the
                   child at school earlier than normal.
                 </p>
-                <Link to="/SignUp">
+                {/* <Link to="/SignUp">
                   <button className="btn btn-primary">Sign Up</button>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

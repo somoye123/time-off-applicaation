@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const externalRequest = require("./middleware");
+const middleware = require("./middleware");
 const port = process.env.PORT || 3030;
 
 const app = express();
@@ -8,18 +8,19 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", express.static(path.join(__dirname, "./build")));
-
-app.use("/request", (req, res) => {
-  res.sendFile(path.join(__dirname, "./build/index.html"));
-});
+// Use express static
+if (process.env.NODE_ENV !== "production") {
+  app.use(express.static(path.join(__dirname, "./build")));
+}
 
 app.get("/request", (req, res) => {
-  res.sendFile(path.join(__dirname, "./build/index.html"));
-  res.json();
+  if (process.env.NODE_ENV !== "production") {
+    res.sendFile(path.join(__dirname, "./build/index.html"));
+    res.json();
+  }
 });
 
-app.get("/holidays", externalRequest);
+app.get("/holidays", middleware);
 
 app.listen(port, err => {
   if (err) {

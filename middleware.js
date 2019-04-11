@@ -1,7 +1,7 @@
 const http = require("https");
 const keys = require("./keys");
 
-const externalRequest = (req, res) => {
+const middleware = (req, res) => {
   http.get(
     keys.url,
     {
@@ -11,7 +11,7 @@ const externalRequest = (req, res) => {
       let body = "";
       response
         .on("data", chunk => {
-          body += chunck.toString();
+          body += chunk.toString();
         })
         .on("end", () => {
           const parsed = JSON.parse(body);
@@ -22,4 +22,4 @@ const externalRequest = (req, res) => {
     }
   );
 };
-module.exports = externalRequest;
+module.exports = middleware;
