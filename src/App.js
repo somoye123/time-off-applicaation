@@ -16,12 +16,12 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={LandingPage} />
             <Route path="/SignUp" exact component={SignUp} />
-            <Route path="/Login" exact component={Login} />
-            <Route
+            { <Route path="/Login" exact component={Login} />}
+            { <Route
               path="/employee-dashboard"
               exact
               component={EmployeeDashboard}
-            />
+            />}
             <Route
               path="/EmployeeDashboard/teamView"
               component={TeamViewDashboard}

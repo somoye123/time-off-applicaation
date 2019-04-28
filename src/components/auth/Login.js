@@ -1,6 +1,6 @@
-  import React, { Component } from "react";
-  import Navbar1 from "../Navbars/AuthNavbar";
-  import axios from "axios";
+import React, { Component } from "react";
+import Navbar1 from "../Navbars/AuthNavbar";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Footer from "../footer/footer.js";
 
@@ -25,42 +25,55 @@ const formvalid = ({ formErrors, ...rest }) => {
 };
 
 export default class Login extends Component {
-  state = {
-    email: null,
-    password: null,
-    invalidError: false,
-    errResponse: false,
-    formErrors: {
-      email: "",
-      password: ""
-    }
-  };
+  constructor(props) {
+    super(props);
 
-  storeToLocalstorage = (data) => {
-    localStorage.setItem('employee-token', data)
+    this.state = {
+      email: null,
+      password: null,
+      invalidError: false,
+      errResponse: false,
+      formErrors: {
+        email: "",
+        password: ""
+      }
+    };
   }
 
-  handleSubmit = e => {
+  componentDidMount() {
+    const token = localStorage.getItem("employee-token");
+
+    if (token) return this.props.history.push("/dashboard");
+  }
+
+  storeToLocalstorage = data => {
+    localStorage.setItem("employee-token", data);
+  };
+
+  async handleSubmit(e) {
     e.preventDefault();
-    if (formValid(this.state)) {
-      let user = { email: this.state.email, password: this.state.password }
-      // window.location.replace('employee-dashboard')
-      axios.post('http://localhost:3030/employee/login', user)
-        .then(data => {
-          const result = data.data.data;
-          this.storeToLocalstorage(result);
-          this.props.history.push('/employee-dashboard')
-          alert("Details submitted successful.");
-        })
-        .catch(err => {
-          const errorMsg = err.response ? err.response.data.message : err.response;
-          this.setState({ errResponse: errorMsg })
-          console.log(errorMsg);
-        });
+    if (formvalid(this.state)) {
+      try {
+        let user = { email: this.state.email, password: this.state.password };
+        const res = await axios.post(
+          "http://localhost:3030/employee/login",
+          user
+        );
+        const token = res.data.data.token;
+        this.storeToLocalstorage(token);
+        alert("Details submitted successful.");
+        this.props.history.push("/employee-dashboard");
+      } catch (err) {
+        const errorMsg = err.response
+          ? err.response.data.message
+          : err.response;
+        this.setState({ errResponse: errorMsg });
+        console.log(errorMsg);
+      }
     } else {
       this.setState({ invaildError: true });
     }
-  };
+  }
 
   handleChange = e => {
     e.preventDefault();
@@ -71,16 +84,16 @@ export default class Login extends Component {
         formErrors.email = emailRegex.test(value) ? (
           ""
         ) : (
-            <p className="text-danger">Provide a valid email address</p>
-          );
+          <p className="text-danger">Provide a valid email address</p>
+        );
         break;
       case "password":
         formErrors.password =
           value.length < 7 ? (
             <p className="text-danger">Weak password</p>
           ) : (
-              <p className="text-success">Strong password</p>
-            );
+            <p className="text-success">Strong password</p>
+          );
         break;
       default:
         break;
@@ -94,50 +107,57 @@ export default class Login extends Component {
       <React.Fragment>
         <Navbar1 />
         <div className="container">
-          <h1 className="text-capitalize text-center">login form</h1>
+          <h1 className="text-capitalize text-center">login Form</h1>
           <form
             className="container mb-5"
             onSubmit={this.handleSubmit}
             noValidate
             style={{ padding: "2% 20%" }}
           >
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter a Valid Email"
-                  id="email"
-                  name="email"
-                  noValidate
-                  onChange={this.handleChange}
-                />
-                {this.state.invaildError && this.state.email === null ? (
-                  <p className="text-danger">* Email is required</p>
-                ) : (
-                    ""
-                  )}
-                {<span className="text-danger">{formErrors.email}</span>}
+            {this.state.errResponse ? (
+              <div className="alert alert-danger text-center">
+                {this.state.errResponse}
               </div>
+            ) : (
+              ""
+            )}
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter a Valid Email"
+                id="email"
+                name="email"
+                noValidate
+                onChange={this.handleChange}
+              />
+              {this.state.invaildError && this.state.email === null ? (
+                <p className="text-danger">* Email is required</p>
+              ) : (
+                ""
+              )}
+              {<span className="text-danger">{formErrors.email}</span>}
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Password"
-                  id="password"
-                  name="password"
-                  noValidate
-                  onChange={this.handleChange}
-                />
-                {this.state.invaildError && this.state.password === null ? (
-                  <p className="text-danger">* Password is required</p>
-                ) : (
-                    ""
-                  )}
-                {<span className="text-danger">{formErrors.password}</span>}
-              </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Password"
+                id="password"
+                name="password"
+                noValidate
+                onChange={this.handleChange}
+              />
+              {this.state.invaildError && this.state.password === null ? (
+                <p className="text-danger">* Password is required</p>
+              ) : (
+                ""
+              )}
+              {<span className="text-danger">{formErrors.password}</span>}
+            </div>
 
             {formvalid(this.state) ? (
               <button
@@ -146,17 +166,17 @@ export default class Login extends Component {
                 className="btn btn-primary text-light"
               >
                 <Link className="text-light" to="/employee-dashboard">
-                  Login 
+                  Login
                 </Link>
               </button>
             ) : (
-                <button type="submit" className="btn btn-primary text-light">
-                  Login
+              <button type="submit" className="btn btn-primary text-light">
+                Login
               </button>
-              )}
+            )}
           </form>
         </div>
-        <Footer/>
+        <Footer />
       </React.Fragment>
     );
   }

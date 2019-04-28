@@ -6,8 +6,7 @@ import Navbar from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
 import Welcome from "./welcome";
 
-const Fullname = `${this.state.user.first_name} ${this.state.user.last_name}`;
-const WelcomeUser = `Welcome ${Fullname}`;
+// const WelcomeUser = `Welcome ${Fullname}`;
 
 const calendarDate = [
   new Date(2019, 0, 9),
@@ -44,29 +43,36 @@ const employeeDetail = {
 };
 
 export default class EmployeeDashboard extends Component {
-    state = {
+  constructor(props){
+    super(props);
+    this.state={
       showMore: false,
       user: null
     }
+  }
     
-    async componentDidMount(){
+  async componentDidMount(){
         try{
             const token = localStorage.getItem("employee-token");
 
             if(!token) return this.props.history.push("/SignUp");
 
-            const res = await axios.get("http://localhost:2004/employee/profile", {
+            const res = await axios.get("http://localhost:3030/employee/profile", {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
             })
 
             this.setState({user: res.data.data});
+            console.log(this.state.user);
+            
         }catch(err){
-            console.log(err);
-            this.props.history.push("/SignUp");
+          if (localStorage.getItem("employee-token")) {
+            localStorage.removeItem("employee-token");
+          }
+         this.props.history.push("/SignUp");
         }
-    }
+  }
 
   logOut = _ => {
     localStorage.removeItem("employee-token");
@@ -80,15 +86,16 @@ export default class EmployeeDashboard extends Component {
       showMore: !this.state.showMore
     });
   };
+
   render() {
     return (
       <React.Fragment>
         <Navbar />
         <Welcome />
-        <p className="text-center">{WelcomeUser}</p>
+        {/* <p className="text-center">{WelcomeUser}</p> */}
         <div className="ml-3 mt-3">
           <h3>Employee Dashboard</h3>
-          <h5 className="text-primary">{Fullname}</h5>
+          {/* <h5 className="text-primary">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5> */}
         </div>
         <div className="container">
           <h3 className="text-center">Statistics</h3>
@@ -147,8 +154,8 @@ export default class EmployeeDashboard extends Component {
                 <div className="card-body text-center">
                   <i className="fa fa-user-circle-o fa-3x" />
                   <div className="mt-2">
-                    <h6>Name : {employeeDetail.name}</h6>
-                    <h6>Department : {employeeDetail.departement}</h6>
+                    {/* <h6>Name : {`${this.state.user.firstName} ${this.state.user.lastName}`}</h6> */}
+                    {/* <h6>Department : {this.state.user.department}</h6> */}
                     <h6>Role : {employeeDetail.position}</h6>
                   </div>
                 </div>

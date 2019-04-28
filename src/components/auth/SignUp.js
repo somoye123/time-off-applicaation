@@ -1,6 +1,6 @@
-  import React, { Component } from "react";
-  import Navbar1 from "../Navbars/AuthNavbar";
-  import axios from 'axios';
+import React, { Component } from "react";
+import Navbar1 from "../Navbars/AuthNavbar";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const emailRegex = RegExp(
@@ -25,72 +25,74 @@ const formvalid = ({ formErrors, ...rest }) => {
 };
 
 export default class SignUp extends Component {
-constructor(props) {
-        super(props);
-        this.errorSate = {
-          companyNameError: false
-        }
-    
-        this.state = {
-          companyName: null,
-          firstName: null,
-          lastName: null,
-          email: null,
-          password: null,
-          invaildError: false,
-          errorResponse: false,
-          successResponse: false,
-          formErrors: {
-            companyName: '',
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: ""
-          }
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props) {
+    super(props);
+    this.errorSate = {
+      companyNameError: false
+    };
+
+    this.state = {
+      companyName: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      department: null,
+      dob: null,
+      manager: null,
+      password: null,
+      invaildError: false,
+      errorResponse: false,
+      successResponse: false,
+      formErrors: {
+        companyName: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        department: "",
+        dob: "",
+        manager: "",
+        password: ""
       }
+    };
+  }
 
-      
-      componentDidMount() {
-        const token = localStorage.getItem("employee-token");
-        
-        if (token) return this.props.history.push("/employee-dashboard");
-      }
-            storeToLocalstorage = (data) => {
-              localStorage.setItem('employee-token', data)
-            }
+  componentDidMount() {
+    const token = localStorage.getItem("employee-token");
 
+    if (token) return this.props.history.push("/employee-dashboard");
+  }
+  storeToLocalstorage = data => {
+    localStorage.setItem("employee-token", data);
+  };
 
- async handleSubmit(e){
-    e.preventDefault();
-    if (formvalid(this.state)) {
+  async handleSubmit (e) {
+  e.preventDefault();
+  if (formvalid(this.state)) {
+    try {
       const body = {
-        firstName: this.state.firstName,
-        companyName: this.state.companyName,
+        firstName: this.state.companyName,
+        companyName: this.state.firstName,
         lastName: this.state.lastName,
+        dob: this.state.dob,
+        department: this.state.department,
+        manager: this.state.manager,
         email: this.state.email,
         password: this.state.password
       };
-      try {
-        const res = await axios.post("http://localhost:3030/employee/SignUp",body);
-        const userData = res.data.data
-        this.storeToLocalstorage(userData)
-        this.props.history.push('/employee-dashboard')
-        // const token = res.data.data.token;
-        // localStorage.setItem("employee-token", token);
-        // this.props.history.push("/employee-dashboard")
-      } catch (error) {
-        const errorMsg = error.response.data.message;
-        this.setState({ errorResponse: errorMsg })
-        console.log(error.response)
-        
-      }
+      const res = await axios.post("http://localhost:3030/employee/SignUp", body);
+      const token = res.data.data.token;
+      this.storeToLocalstorage(token);
       alert("Details submitted successful.");
-    } else {
-      this.setState({ invaildError: true });
+      this.props.history.push("/employee-dashboard");
+    } catch (error) {
+      const errorMsg = error.response.data.message;
+      this.setState({ errorResponse: errorMsg });
+      console.log(error.response);
     }
-  };
+  } else {
+    this.setState({ invaildError: true });
+  }
+}
 
   handleChange = e => {
     e.preventDefault();
@@ -122,10 +124,30 @@ constructor(props) {
           <p className="text-danger">Provide a valid email address</p>
         );
         break;
+      case "department":
+        formErrors.department =
+          value.length < 3 || !LetterRegex.test(value)
+            ? "Minimum of 3 character required (alphabet only)"
+            : "";
+        break;
+      case "dob":
+        formErrors.dob =
+          value.length < 3
+            ? "date of birth must be up to 3 characters (alphabet only)"
+            : "";
+        break;
+      case "manager":
+        formErrors.manager =
+          value.length < 3 || !LetterRegex.test(value)
+            ? "Minimum of 3 character required (alphabet only)"
+            : "";
+        break;
       case "password":
         formErrors.password =
           value.length < 7 ? (
-            <p className="text-danger">Weak password</p>
+            <p className="text-danger">
+              Weak password (minimum of 7 characters)
+            </p>
           ) : (
             <p className="text-success">Strong password</p>
           );
@@ -148,23 +170,51 @@ constructor(props) {
             onSubmit={this.handleSubmit}
             noValidate
           >
-            <div className="form-group">
-              <label htmlFor="companyName">Company Name</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Company Name"
-                id="companyName"
-                name="companyName"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {this.state.invaildError && this.state.companyName === null ? (
-                <p className="text-danger">* Company name is required</p>
-              ) : (
-                ""
-              )}
-              {<span className="text-danger">{formErrors.companyName}</span>}
+            {this.state.errorResponse ? (
+              <div className="alert alert-danger">
+                {this.state.errorResponse}
+              </div>
+            ) : (
+              ""
+            )}
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="companyName">Company Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Company Name"
+                  id="companyName"
+                  name="companyName"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.companyName === null ? (
+                  <p className="text-danger">* Company name is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.companyName}</span>}
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="manager">Manager</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Manager's name"
+                  id="manager"
+                  name="manager"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.manager === null ? (
+                  <p className="text-danger">* Manager is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.manager}</span>}
+              </div>
             </div>
 
             <div className="form-row">
@@ -204,6 +254,45 @@ constructor(props) {
                   ""
                 )}
                 {<span className="text-danger">{formErrors.lastName}</span>}
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="department">Department</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Department"
+                  id="department"
+                  name="department"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.department === null ? (
+                  <p className="text-danger">* Department is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className="text-danger">{formErrors.department}</span>}
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="dob">Date Of Birth</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="dob"
+                  name="dob"
+                  noValidate
+                  onChange={this.handleChange}
+                />
+                {this.state.invaildError && this.state.dob === null ? (
+                  <p className="text-danger">* date of birth is required</p>
+                ) : (
+                  ""
+                )}
+                {<span className=""></span>}
               </div>
             </div>
 
