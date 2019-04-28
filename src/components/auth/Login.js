@@ -43,33 +43,28 @@ export default class Login extends Component {
   componentDidMount() {
     const token = localStorage.getItem("employee-token");
 
-    if (token) return this.props.history.push("/dashboard");
+    if (token) return this.props.history.push("/employee-dashboard");
   }
 
   storeToLocalstorage = data => {
     localStorage.setItem("employee-token", data);
   };
 
-  async handleSubmit(e) {
+ handleSubmit = e => {
     e.preventDefault();
     if (formvalid(this.state)) {
-      try {
         let user = { email: this.state.email, password: this.state.password };
-        const res = await axios.post(
-          "http://localhost:3030/employee/login",
-          user
-        );
-        const token = res.data.data.token;
-        this.storeToLocalstorage(token);
-        alert("Details submitted successful.");
-        this.props.history.push("/employee-dashboard");
-      } catch (err) {
-        const errorMsg = err.response
-          ? err.response.data.message
-          : err.response;
-        this.setState({ errResponse: errorMsg });
-        console.log(errorMsg);
-      }
+        axios.post("http://localhost:3030/employee/login", user).then(data => {
+          const token = data.data.data.token;
+          this.storeToLocalstorage(token);
+          alert("Details submitted successful.");
+          this.props.history.push("/employee-dashboard");
+        }).catch(err => {
+
+          const errorMsg = err.response
+          this.setState({ errResponse: errorMsg });
+          console.log(errorMsg);
+        });
     } else {
       this.setState({ invaildError: true });
     }
@@ -84,16 +79,16 @@ export default class Login extends Component {
         formErrors.email = emailRegex.test(value) ? (
           ""
         ) : (
-          <p className="text-danger">Provide a valid email address</p>
-        );
+            <p className="text-danger">Provide a valid email address</p>
+          );
         break;
       case "password":
         formErrors.password =
           value.length < 7 ? (
             <p className="text-danger">Weak password</p>
           ) : (
-            <p className="text-success">Strong password</p>
-          );
+              <p className="text-success">Strong password</p>
+            );
         break;
       default:
         break;
@@ -119,8 +114,8 @@ export default class Login extends Component {
                 {this.state.errResponse}
               </div>
             ) : (
-              ""
-            )}
+                ""
+              )}
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -135,8 +130,8 @@ export default class Login extends Component {
               {this.state.invaildError && this.state.email === null ? (
                 <p className="text-danger">* Email is required</p>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {<span className="text-danger">{formErrors.email}</span>}
             </div>
 
@@ -154,8 +149,8 @@ export default class Login extends Component {
               {this.state.invaildError && this.state.password === null ? (
                 <p className="text-danger">* Password is required</p>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {<span className="text-danger">{formErrors.password}</span>}
             </div>
 
@@ -170,10 +165,10 @@ export default class Login extends Component {
                 </Link>
               </button>
             ) : (
-              <button type="submit" className="btn btn-primary text-light">
-                Login
+                <button type="submit" className="btn btn-primary text-light">
+                  Login
               </button>
-            )}
+              )}
           </form>
         </div>
         <Footer />

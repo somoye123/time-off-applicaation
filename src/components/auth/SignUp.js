@@ -65,13 +65,12 @@ export default class SignUp extends Component {
     localStorage.setItem("employee-token", data);
   };
 
-  async handleSubmit (e) {
+ handleSubmit = e => {
   e.preventDefault();
   if (formvalid(this.state)) {
-    try {
       const body = {
-        firstName: this.state.companyName,
-        companyName: this.state.firstName,
+        companyName: this.state.companyName,
+        firstName: this.state.firstName,
         lastName: this.state.lastName,
         dob: this.state.dob,
         department: this.state.department,
@@ -79,20 +78,23 @@ export default class SignUp extends Component {
         email: this.state.email,
         password: this.state.password
       };
-      const res = await axios.post("http://localhost:3030/employee/SignUp", body);
-      const token = res.data.data.token;
-      this.storeToLocalstorage(token);
-      alert("Details submitted successful.");
-      this.props.history.push("/employee-dashboard");
-    } catch (error) {
-      const errorMsg = error.response.data.message;
-      this.setState({ errorResponse: errorMsg });
-      console.log(error.response);
-    }
+     axios.post("http://localhost:3030/employee/SignUp", body).then((data)=> {
+
+       const token = data.data.data.token;
+       this.storeToLocalstorage(token);
+       alert("Details submitted successful.");
+       this.props.history.push("/employee-dashboard");
+     }).catch(error => {
+
+       const errorMsg = error.response;
+       this.setState({ errorResponse: errorMsg });
+       console.log(error.response);
+     })
+    
   } else {
     this.setState({ invaildError: true });
   }
-}
+};
 
   handleChange = e => {
     e.preventDefault();
@@ -170,13 +172,13 @@ export default class SignUp extends Component {
             onSubmit={this.handleSubmit}
             noValidate
           >
-            {this.state.errorResponse ? (
+            {/* {this.state.errorResponse ? (
               <div className="alert alert-danger">
                 {this.state.errorResponse}
               </div>
             ) : (
               ""
-            )}
+            )} */}
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="companyName">Company Name</label>
@@ -374,7 +376,7 @@ export default class SignUp extends Component {
                 </datalist>
               </div>
             </div>
-
+            {/* <button type="submit" className="btn btn-primary">Register</button> */}
             {formvalid(this.state) ? (
               <button
                 onClick={this.handleSubmit}

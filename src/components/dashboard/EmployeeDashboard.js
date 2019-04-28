@@ -6,7 +6,6 @@ import Navbar from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
 import Welcome from "./welcome";
 
-// const WelcomeUser = `Welcome ${Fullname}`;
 
 const calendarDate = [
   new Date(2019, 0, 9),
@@ -36,19 +35,13 @@ const requests = [
   { name: "Vacation", date: "14/01/2019" }
 ];
 
-const employeeDetail = {
-  name: "Somoye Ayotunde",
-  departement: "Information Technology",
-  position: "FullStack Developer"
-};
-
 export default class EmployeeDashboard extends Component {
   constructor(props){
     super(props);
-    this.state={
+    this.state = {
       showMore: false,
-      user: null
-    }
+      user:""
+    };
   }
     
   async componentDidMount(){
@@ -92,10 +85,9 @@ export default class EmployeeDashboard extends Component {
       <React.Fragment>
         <Navbar />
         <Welcome />
-        {/* <p className="text-center">{WelcomeUser}</p> */}
         <div className="ml-3 mt-3">
           <h3>Employee Dashboard</h3>
-          {/* <h5 className="text-primary">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5> */}
+          <h5 className="text-primary">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5>
         </div>
         <div className="container">
           <h3 className="text-center">Statistics</h3>
@@ -154,9 +146,9 @@ export default class EmployeeDashboard extends Component {
                 <div className="card-body text-center">
                   <i className="fa fa-user-circle-o fa-3x" />
                   <div className="mt-2">
-                    {/* <h6>Name : {`${this.state.user.firstName} ${this.state.user.lastName}`}</h6> */}
-                    {/* <h6>Department : {this.state.user.department}</h6> */}
-                    <h6>Role : {employeeDetail.position}</h6>
+                    <h6>Name : {`${this.state.user.firstName} ${this.state.user.lastName}`}</h6>
+                    <h6>Department : {this.state.user.department}</h6>
+                    <h6>Manager : {this.state.user.manager}</h6>
                   </div>
                 </div>
               </div>
@@ -191,7 +183,7 @@ export default class EmployeeDashboard extends Component {
             <h4>All Absences</h4>
           </div>
           <div className="row mb-5 py-3">
-            <table class="table container table-sm ">
+            <table className="table container table-sm ">
               <thead>
                 <tr>
                   <th scope="col">Types</th>
