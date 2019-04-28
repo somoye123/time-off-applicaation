@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import Navbar1 from "../Navbars/AuthNavbar";
+  import React, { Component } from "react";
+  import Navbar1 from "../Navbars/AuthNavbar";
+  import axios from 'axios';
 import { Link } from "react-router-dom";
 
 const emailRegex = RegExp(
@@ -20,44 +21,71 @@ const formvalid = ({ formErrors, ...rest }) => {
   Object.values(rest).forEach(val => {
     val === null && (valid = false);
   });
-
   return valid;
 };
 
 export default class SignUp extends Component {
-  state = {
-    companyName: null,
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    invaildError: false,
-    formErrors: {
-      companyName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: ""
-    }
-  };
+constructor(props) {
+        super(props);
+        this.errorSate = {
+          companyNameError: false
+        }
+    
+        this.state = {
+          companyName: null,
+          firstName: null,
+          lastName: null,
+          email: null,
+          password: null,
+          invaildError: false,
+          errorResponse: false,
+          successResponse: false,
+          formErrors: {
+            companyName: '',
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: ""
+          }
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
 
-  errorSate = {
-    companyNameError: false
-  };
+      
+      componentDidMount() {
+        const token = localStorage.getItem("employee-token");
+        
+        if (token) return this.props.history.push("/employee-dashboard");
+      }
+            storeToLocalstorage = (data) => {
+              localStorage.setItem('employee-token', data)
+            }
 
-  handleSubmit = e => {
+
+ async handleSubmit(e){
     e.preventDefault();
     if (formvalid(this.state)) {
-      let user = {
-        companyName: this.state.companyName,
+      const body = {
         firstName: this.state.firstName,
+        companyName: this.state.companyName,
         lastName: this.state.lastName,
         email: this.state.email,
         password: this.state.password
       };
-      user = JSON.stringify(user);
-      console.log(user);
-      localStorage.setItem("NewUser", user);
+      try {
+        const res = await axios.post("http://localhost:3030/employee/SignUp",body);
+        const userData = res.data.data
+        this.storeToLocalstorage(userData)
+        this.props.history.push('/employee-dashboard')
+        // const token = res.data.data.token;
+        // localStorage.setItem("employee-token", token);
+        // this.props.history.push("/employee-dashboard")
+      } catch (error) {
+        const errorMsg = error.response.data.message;
+        this.setState({ errorResponse: errorMsg })
+        console.log(error.response)
+        
+      }
       alert("Details submitted successful.");
     } else {
       this.setState({ invaildError: true });

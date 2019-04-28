@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import Navbar1 from "../Navbars/AuthNavbar";
+  import React, { Component } from "react";
+  import Navbar1 from "../Navbars/AuthNavbar";
+  import axios from "axios";
 import { Link } from "react-router-dom";
 import Footer from "../footer/footer.js";
 
@@ -23,32 +24,39 @@ const formvalid = ({ formErrors, ...rest }) => {
   return valid;
 };
 
-export default class SignUp extends Component {
+export default class Login extends Component {
   state = {
     email: null,
     password: null,
-    invaildError: false,
+    invalidError: false,
+    errResponse: false,
     formErrors: {
       email: "",
       password: ""
     }
   };
 
-  errorSate = {
-    companyNameError: false
-  };
+  storeToLocalstorage = (data) => {
+    localStorage.setItem('employee-token', data)
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    if (formvalid(this.state)) {
-      let user = {
-        email: this.state.email,
-        password: this.state.password
-      };
-      user = JSON.stringify(user);
-      console.log(user);
-      localStorage.setItem("NewUser", user);
-      alert("Details submitted successful.");
+    if (formValid(this.state)) {
+      let user = { email: this.state.email, password: this.state.password }
+      // window.location.replace('employee-dashboard')
+      axios.post('http://localhost:3030/employee/login', user)
+        .then(data => {
+          const result = data.data.data;
+          this.storeToLocalstorage(result);
+          this.props.history.push('/employee-dashboard')
+          alert("Details submitted successful.");
+        })
+        .catch(err => {
+          const errorMsg = err.response ? err.response.data.message : err.response;
+          this.setState({ errResponse: errorMsg })
+          console.log(errorMsg);
+        });
     } else {
       this.setState({ invaildError: true });
     }

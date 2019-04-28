@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import Calendar from "react-calendar";
 import Navbar from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
 import Welcome from "./welcome";
 
-const Fullname = "Somoye Ayotunde";
+const Fullname = `${this.state.user.first_name} ${this.state.user.last_name}`;
 const WelcomeUser = `Welcome ${Fullname}`;
 
 const calendarDate = [
@@ -43,9 +44,37 @@ const employeeDetail = {
 };
 
 export default class EmployeeDashboard extends Component {
-  state = {
-    showMore: false
-  };
+    state = {
+      showMore: false,
+      user: null
+    }
+    
+    async componentDidMount(){
+        try{
+            const token = localStorage.getItem("employee-token");
+
+            if(!token) return this.props.history.push("/SignUp");
+
+            const res = await axios.get("http://localhost:2004/employee/profile", {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            this.setState({user: res.data.data});
+        }catch(err){
+            console.log(err);
+            this.props.history.push("/SignUp");
+        }
+    }
+
+  logOut = _ => {
+    localStorage.removeItem("employee-token");
+    
+    this.props.history.push("/Login");
+  }
+
+
   handeleShowMore = () => {
     this.setState({
       showMore: !this.state.showMore

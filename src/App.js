@@ -17,12 +17,20 @@ class App extends Component {
             <Route path="/" exact component={LandingPage} />
             <Route path="/SignUp" exact component={SignUp} />
             <Route path="/Login" exact component={Login} />
-            <Route path="/employee-dashboard" exact component={EmployeeDashboard} />
+            <Route
+              path="/employee-dashboard"
+              exact
+              component={EmployeeDashboard}
+            />
             <Route
               path="/EmployeeDashboard/teamView"
               component={TeamViewDashboard}
             />
-            <Route path="/employee-dashboard/new-absence" exact component={AbsenceForm} />
+            <Route
+              path="/employee-dashboard/new-absence"
+              exact
+              component={AbsenceForm}
+            />
             <Route component={LandingPage} />
           </Switch>
         </React.Fragment>
