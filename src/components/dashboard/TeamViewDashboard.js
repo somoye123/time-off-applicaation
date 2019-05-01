@@ -1,65 +1,99 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import env from "../../env";
+import axios from "axios";
 import EmployeeHeader from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
 
 export default class TeamViewDashboard extends Component {
+  state = {
+    user: "",
+    request: [],
+    loading: true
+  };
+
+  async componentDidMount() {
+    try {
+      const token = localStorage.getItem("employee-token");
+
+      if (!token) return this.props.history.push("/Login");
+
+      const profile = await axios.get(`${env.api}/employee/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const leave = await axios.get(`${env.api}/leave`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      this.setState({
+        user: profile.data.data,
+        request: leave.data.data,
+        loading: false
+      });
+      console.log(this.state.request);
+      console.log(this.state.user);
+    } catch (err) {
+console.log(err);
+    }
+  }
   render() {
+    const { user, request } = this.state;
     return (
       <React.Fragment>
-        <EmployeeHeader/>
+        <EmployeeHeader />
         <div className="container">
-          <h5 className="text-danger text-center my-4">TimeOff Yet To Be Approved</h5>
-          <table className="container table">
+          <h5 className="text-danger text-center my-4">
+            TimeOff Yet To Be Approved Or Declined
+          </h5>
+          {this.state.loading ? (
+            <p>Automatically loads and updates requests if any</p>
+          ) : (
+            ""
+          )}
+          <table className="container table table-hover">
             <thead>
               <tr>
                 <th scope="col">Employee</th>
                 <th scope="col">Department</th>
-                <th scope="col">Request Date</th>
+                <th scope="col">Leave Type</th>
                 <th scope="col">Leave Period</th>
-                <th scope="col">Type</th>
-                <th scope="col">Number Of Days</th>
-                <th scope="col">Available Days</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Duration</th>
+                <th scope="col">Leave Reason</th>
+                <th scope="col" />
+                <th scope="col" />
               </tr>
             </thead>
+            
             <tbody>
-              <tr>
-                <td>Somoye Ayotunde</td>
-                <td>Engineering</td>
-                <td>2019/3/28</td>
-                <td>2020/1/14 To 2020/2/14</td>
-                <td>Sabbatical</td>
-                <td>30</td>
-                <td>28</td>
-                <td><button type="button" class="btn btn-danger">Reject</button></td>
-                <td><button type="button" class="btn btn-danger">Pending</button></td>
-              </tr>
-              <tr>
-                <td>Kehinde Caroline</td>
-                <td>HR</td>
-                <td>2019/2/19</td>
-                <td>2019/4/10 To 2019/4/24</td>
-                <td>Vacation</td>
-                <td>14</td>
-                <td>7</td>
-                <td><button type="button" class="btn btn-danger">Reject</button></td>
-                <td><button type="button" class="btn btn-danger">Pending</button></td>
-              </tr>
-              <tr>
-                <td>Somoye Opeyemi</td>
-                <td>Finance</td>
-                <td>2019/6/2</td>
-                <td>2019/8/14 To 2019/8/17</td>
-                <td>Marriage Purposes</td>
-                <td>3</td>
-                <td>2</td>
-                <td><button type="button" class="btn btn-danger">Reject</button></td>
-                <td><button type="button" class="btn btn-success">Approved</button></td>
-              </tr>
+              {request.map((item, index) => (
+                <tr key={index}>
+                  <td>{`${user.firstName} ${user.lastName}`}</td>
+                  <td>{user.department}</td>
+                  <td>{item.leaveType}</td>
+                  <td>{`${item.startDate} To ${item.stopDate}`}</td>
+                  <td>{item.duration}</td>
+                  <td>{item.leaveReason}</td>
+                  <td>
+                    <button className="btn btn-success mr-2">
+                      Approve
+                    </button>
+                  </td>
+                  <td>
+                    <button className="btn btn-danger">Decline</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
+
+            
           </table>
-          <h5 className="text-success text-center my-4">Approved Request</h5>
+          <h5 className="text-success text-center my-4">
+            Approved Request
+          </h5>
           <table className="container table mb-5 py-3">
             <thead>
               <tr>
@@ -103,8 +137,8 @@ export default class TeamViewDashboard extends Component {
             </tbody>
           </table>
         </div>
-        <Footer/>
+        <Footer />
       </React.Fragment>
-    )
+    );
   }
 }

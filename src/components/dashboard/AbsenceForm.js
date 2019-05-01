@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
+import env from "../../env";
+import axios from "axios";
 import EmployeeHeader from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
 
@@ -18,6 +20,7 @@ let date = new Date();
 date = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
 export default class AbsenceForm extends Component {
   state = {
+    user: "",
     fields: {},
     errors: {},
     leaveType: '',
@@ -26,6 +29,27 @@ export default class AbsenceForm extends Component {
     stopTime: date,
     diffStartTimeStopTime: '0 Days',
     showError: false
+  }
+
+  async componentDidMount() {
+    try {
+      const token = localStorage.getItem("employee-token");
+
+      if (!token) return this.props.history.push("/Login");
+
+      const res = await axios.get(`${env.api}/employee/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      this.setState({user: res.data.data });
+    } catch (err) {
+      if (localStorage.getItem("employee-token")) {
+        localStorage.removeItem("employee-token");
+      }
+      this.props.history.push("/Login");
+    }
   }
 
   handeleLeavetype = e => {
@@ -60,16 +84,33 @@ export default class AbsenceForm extends Component {
     console.log(diff)
   }
   
-  hamdleFormSubmit = () => {
+   handleFormSubmit = _ => {
     if (this.state.leaveType !== '' && this.state.leaveReason !== '' && !this.state.diffStartTimeStopTime.includes('-') && this.state.diffStartTimeStopTime !== '0 Days') {
       console.log(this.state.diffStartTimeStopTime)
       alert('Form submitted sucessfully, please await it approval')
     } else {
       this.setState({ showError: true })
     }
-    if (this.state.diffStartTimeStopTime === '0 Days') {
-      this.setState({ showError: true })
-    }
+
+      const body = {
+        leaveType: this.state.leaveType,
+        startDate: this.state.startTime,
+        stopDate: this.state.stopTime,
+        duration: this.state.diffStartTimeStopTime,
+        leaveReason: this.state.leaveReason,
+        employee: this.state.user._id
+      };
+      
+    axios.post(`${env.api}/leave`, body).then((data)=>{
+        console.log(data);
+        
+      }).catch((error)=>{
+        console.log(error);
+        
+      })
+
+      this.setState({leaveType: '', startTime: date, stopTime: date, diffStartTimeStopTime: '0 Days',leaveReason: ''});
+      
   }
 
   calculateDuration = (days) => {
@@ -189,7 +230,7 @@ export default class AbsenceForm extends Component {
             </div>
           </div>
           <div className="card-footer">
-            <button onClick={this.hamdleFormSubmit} className="my-1 btn btn-primary btn-lg">Submit Request</button>
+            <button onClick={this.handleFormSubmit} className="my-1 btn btn-primary btn-lg">Submit Request</button>
           </div>
         </div>
       </div>   
