@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar1 from "../Navbars/AuthNavbar";
+import env from "../../env";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Footer from "../footer/footer.js";
@@ -54,7 +55,7 @@ export default class Login extends Component {
     e.preventDefault();
     if (formvalid(this.state)) {
         let user = { email: this.state.email, password: this.state.password };
-        axios.post("http://localhost:3030/employee/login", user).then(data => {
+        axios.post(`${env.api}/employee/login`, user).then(data => {
           const token = data.data.data.token;
           this.storeToLocalstorage(token);
           alert("Details submitted successful.");

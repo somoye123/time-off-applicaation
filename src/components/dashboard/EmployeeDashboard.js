@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import env from "../../env";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import Calendar from "react-calendar";
@@ -50,7 +51,7 @@ export default class EmployeeDashboard extends Component {
 
             if(!token) return this.props.history.push("/SignUp");
 
-            const res = await axios.get("http://localhost:3030/employee/profile", {
+            const res = await axios.get(`${env.api}/employee/profile`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }

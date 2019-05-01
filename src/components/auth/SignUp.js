@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar1 from "../Navbars/AuthNavbar";
+import env from "../../env";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -78,7 +79,7 @@ export default class SignUp extends Component {
         email: this.state.email,
         password: this.state.password
       };
-     axios.post("http://localhost:3030/employee/SignUp", body).then((data)=> {
+     axios.post(`${env.api}/employee/SignUp`, body).then((data)=> {
 
        const token = data.data.data.token;
        this.storeToLocalstorage(token);
