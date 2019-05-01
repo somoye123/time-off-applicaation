@@ -21,6 +21,7 @@ export default class AbsenceForm extends Component {
     fields: {},
     errors: {},
     leaveType: '',
+    leaveReason: '',
     startTime: date,
     stopTime: date,
     diffStartTimeStopTime: '0 Days',
@@ -30,6 +31,11 @@ export default class AbsenceForm extends Component {
   handeleLeavetype = e => {
     console.log(e.target.value)
     this.setState({ leaveType: e.target.value })
+  }
+
+  handeleLeaveReason = e => {
+    console.log(e.target.value)
+    this.setState({ leaveReason: e.target.value })
   }
 
     handleStartTime = e => {
@@ -55,7 +61,7 @@ export default class AbsenceForm extends Component {
   }
   
   hamdleFormSubmit = () => {
-    if (!this.state.diffStartTimeStopTime.includes('-') && this.state.diffStartTimeStopTime !== '0 Days') {
+    if (this.state.leaveType !== '' && this.state.leaveReason !== '' && !this.state.diffStartTimeStopTime.includes('-') && this.state.diffStartTimeStopTime !== '0 Days') {
       console.log(this.state.diffStartTimeStopTime)
       alert('Form submitted sucessfully, please await it approval')
     } else {
@@ -171,8 +177,13 @@ export default class AbsenceForm extends Component {
               <div className="col-12">
                   <div className="form-group">
                     <label htmlFor="reason"><h6>Reason for the time-off request</h6>
-                      <textarea style={{width:"100%"}} name="comment" id="reason" rows="3" className="form-control" required></textarea>
+                      <textarea style={{width:"100%"}} name="comment" onChange={this.handeleLeaveReason} id="reason" rows="3" className="form-control" required></textarea>
                     </label>
+                    {
+                   (this.state.leaveReason === '' && this.state.showError)
+                   ?<small className="text-danger">Precise comment about opting for the leave is required</small>
+                   :''
+                  }
                   </div>
               </div>
             </div>

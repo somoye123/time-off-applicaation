@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Calendar from "react-calendar";
 import Navbar from "../Navbars/DashboardNavbar";
 import Footer from "../footer/footer";
-import Welcome from "./welcome";
+// import Welcome from "./welcome";
 
 
 const calendarDate = [
@@ -87,7 +87,7 @@ export default class EmployeeDashboard extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <Welcome />
+        {/* <Welcome /> */}
         <div className="ml-3 mt-3">
           <h3>Employee Dashboard</h3>
           <h5 className="text-primary">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5>
