@@ -40,6 +40,7 @@ export default class EmployeeDashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      loading:true,
       showMore: false,
       user:""
     };
@@ -57,7 +58,7 @@ export default class EmployeeDashboard extends Component {
                 }
             })
 
-            this.setState({user: res.data.data});
+            this.setState({loading:false, user: res.data.data});
             console.log(this.state.user);
             
         }catch(err){
@@ -82,6 +83,7 @@ export default class EmployeeDashboard extends Component {
   };
 
   render() {
+    if (this.state.loading) return <p>loading...</p>
     return (
       <React.Fragment>
         <Navbar />
