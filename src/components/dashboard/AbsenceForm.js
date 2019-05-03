@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.css';
+import React, { Component } from "react";
+import "./style.css";
+import Swal from "sweetalert2";
 import env from "../../env";
 import axios from "axios";
 import EmployeeHeader from "../Navbars/DashboardNavbar";
@@ -8,28 +9,31 @@ import Footer from "../footer/footer";
 const FillForm = "Fill out the form below";
 
 const leaveType = [
-  { name: 'Maternity Leave', days: 20 },
-  { name: 'Health', days: 10 },
-  { name: 'Marriage Purpose', days: 5 },
-  { name: 'Travel', days: 7 },
-  { name: 'Vacation', days: 5 },
-  { name: 'Others', days: 5 },
-]
+  { name: "Sabbatical", days: 20 },
+  { name: "Maternity", days: 20 },
+  { name: "Bereavement", days: 10 },
+  { name: "Health", days: 10 },
+  { name: "Marriage", days: 5 },
+  { name: "Jury Duty", days: 5 },
+  { name: "Travel", days: 7 },
+  { name: "Vacation", days: 5 },
+  { name: "Holiday", days: 5 },
+  { name: "Paternity", days: 5 },
+  { name: "Others", days: 5 }
+];
 
 let date = new Date();
-date = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+date = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
 export default class AbsenceForm extends Component {
   state = {
     user: "",
-    fields: {},
-    errors: {},
-    leaveType: '',
-    leaveReason: '',
+    leaveType: "",
+    leaveReason: "",
     startTime: date,
     stopTime: date,
-    diffStartTimeStopTime: '0 Days',
+    diffStartTimeStopTime: "0 Days",
     showError: false
-  }
+  };
 
   async componentDidMount() {
     try {
@@ -41,9 +45,9 @@ export default class AbsenceForm extends Component {
         headers: {
           Authorization: `Bearer ${token}`
         }
-      })
+      });
 
-      this.setState({user: res.data.data });
+      this.setState({ user: res.data.data });
     } catch (err) {
       if (localStorage.getItem("employee-token")) {
         localStorage.removeItem("employee-token");
@@ -53,45 +57,44 @@ export default class AbsenceForm extends Component {
   }
 
   handeleLeavetype = e => {
-    console.log(e.target.value)
-    this.setState({ leaveType: e.target.value })
-  }
+    console.log(e.target.value);
+    this.setState({ leaveType: e.target.value });
+  };
 
   handeleLeaveReason = e => {
-    console.log(e.target.value)
-    this.setState({ leaveReason: e.target.value })
-  }
+    console.log(e.target.value);
+    this.setState({ leaveReason: e.target.value });
+  };
 
-    handleStartTime = e => {
-      let startTimeValue = e.target.value;
-      this.setState({ startTime: startTimeValue })
-      const start = startTimeValue.replace(/-/g, '');
-      const stop = this.state.stopTime.replace(/-/g, '');
-      let diff = start - stop
-      diff = this.calculateDuration(diff)
-      this.setState({ diffStartTimeStopTime: `${diff} Days` })
-      console.log(this.state.diffStartTimeStopTime)
-    }
+  handleStartTime = e => {
+    let startTimeValue = e.target.value;
+    this.setState({ startTime: startTimeValue });
+    const start = startTimeValue.replace(/-/g, "");
+    const stop = this.state.stopTime.replace(/-/g, "");
+    let diff = start - stop;
+    diff = this.calculateDuration(diff);
+    this.setState({ diffStartTimeStopTime: `${diff} Days` });
+    console.log(this.state.diffStartTimeStopTime);
+  };
 
   handleStopTime = e => {
     let stopTimeValue = e.target.value;
-    this.setState({ stopTime: stopTimeValue })
-    const start = this.state.startTime.replace(/-/g, '');
-    const stop = stopTimeValue.replace(/-/g, '');
-    let diff = stop - start
-    diff = this.calculateDuration(diff)
-    this.setState({ diffStartTimeStopTime: `${diff}` })
-    console.log(diff)
-  }
-  
-   handleFormSubmit = _ => {
-    if (this.state.leaveType !== '' && this.state.leaveReason !== '' && !this.state.diffStartTimeStopTime.includes('-') && this.state.diffStartTimeStopTime !== '0 Days') {
-      console.log(this.state.diffStartTimeStopTime)
-      alert('Form submitted sucessfully, please await it approval')
-    } else {
-      this.setState({ showError: true })
-    }
+    this.setState({ stopTime: stopTimeValue });
+    const start = this.state.startTime.replace(/-/g, "");
+    const stop = stopTimeValue.replace(/-/g, "");
+    let diff = stop - start;
+    diff = this.calculateDuration(diff);
+    this.setState({ diffStartTimeStopTime: `${diff}` });
+    console.log(diff);
+  };
 
+  handleFormSubmit = _ => {
+    if (
+      this.state.leaveType !== "" &&
+      this.state.leaveReason !== "" &&
+      !this.state.diffStartTimeStopTime.includes("-") &&
+      this.state.diffStartTimeStopTime !== "0 Days"
+    ) {
       const body = {
         leaveType: this.state.leaveType,
         startDate: this.state.startTime,
@@ -100,142 +103,216 @@ export default class AbsenceForm extends Component {
         leaveReason: this.state.leaveReason,
         employee: this.state.user._id
       };
-      
-    axios.post(`${env.api}/leave`, body).then((data)=>{
-        console.log(data);
-        
-      }).catch((error)=>{
-        console.log(error);
-        
-      })
 
-      this.setState({leaveType: '', startTime: date, stopTime: date, diffStartTimeStopTime: '0 Days',leaveReason: ''});
-      
-  }
+      axios
+        .post(`${env.api}/leave`, body)
+        .then(data => {
+          console.log(data);
+          Swal.fire(
+            "Success",
+            "Form submitted sucessfully, please await it approval",
+            "success"
+          );
+        })
+        .then(() => {
+          this.clearAllField();
+        })
+        .catch(err => {
+          if (err && err.response && err.response.staus !== 500) {
+            Swal.fire("Error", `${err.response.data.message}`, "error");
+          }
+          console.log(err);
+        });
+    } else {
+      this.setState({ showError: true });
+    }
+  };
 
-  calculateDuration = (days) => {
+  clearAllField = () => {
+    this.setState({
+      startTime: date,
+      stopTime: date,
+      diffStartTimeStopTime: "0 Days",
+      leaveReason: "",
+      showError: false
+    });
+  };
+
+  calculateDuration = days => {
     let not = undefined;
-    let value = days
-    let result = days
-    let day, month, weeks
+    let value = days;
+    let result = days;
+    let day, month, weeks;
     if (value >= 30) {
       month = value / 30;
-      month = Math.floor(month)
-      value = value % 30
-    } if (value >= 7) {
+      month = Math.floor(month);
+      value = value % 30;
+    }
+    if (value >= 7) {
       day = value % 7;
       weeks = value / 7;
       weeks = Math.floor(weeks);
     } else {
-      day = value
+      day = value;
     }
     if (month !== not && (weeks === not && day === not)) {
-      result = `${month} Month`
+      result = `${month} Month`;
     }
-    if ((month === not && day === 0) && weeks !== not) {
-      result = `${weeks} Week`
+    if (month === not && day === 0 && weeks !== not) {
+      result = `${weeks} Week`;
     }
-    console.log(day)
+    console.log(day);
     if (day !== not && (month === not && weeks === not)) {
-      result = `${day} day`
+      result = `${day} day`;
     }
     if (month !== not && weeks !== not && day !== not) {
-      result = `${month} Month ${weeks} Week ${day} Day`
+      result = `${month} Month ${weeks} Week ${day} Day`;
     }
-    console.log(weeks)
+    console.log(weeks);
     if (month !== not && weeks !== not && day === 0) {
-      result = `${month} Month ${weeks} Week`
+      result = `${month} Month ${weeks} Week`;
     }
     if (month !== not && weeks === not && day !== not) {
-      result = `${month} Month ${day} Day`
+      result = `${month} Month ${day} Day`;
     }
     if (month === not && weeks && day) {
-      result = `${weeks} Week ${day} Day`
+      result = `${weeks} Week ${day} Day`;
     }
-    // result = `${month} Month ${weeks} Week ${day} Day`
-    return result
-  }
+    return result;
+  };
 
   render() {
     return (
-    <React.Fragment>
-      <EmployeeHeader />
-      <div className="container mt-3 align-center">
-        <div className="card align-center bg-success">
-          <div className="card-header text-center">
-            <h5>{FillForm}</h5>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-12">
-                <div className="form-group">
-                  <select name="" onClick={this.handeleLeavetype} id="exampleFormControlSelect1" className="form-control" required>
-                    {
-                      leaveType.map((item, index) => {
-                        return <option key={index}>{item.name}</option>
-                      })
-                    }
-                  </select>
-                  {
-                   (this.state.leaveType=== '' && this.state.showError)
-                   ?<small className="text-danger">Leave type is required</small>
-                   :''
-                  }
+      <React.Fragment>
+        <EmployeeHeader />
+        <div className="container absence mt-3 align-center">
+          <div className="card align-center my-auto">
+            <div className="card-header text-center">
+              <h5>{FillForm}</h5>
+            </div>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-12">
+                  <div className="form-group">
+                    <select
+                      name=""
+                      onClick={this.handeleLeavetype}
+                      id="exampleFormControlSelect1"
+                      className="form-control"
+                      required
+                    >
+                      {leaveType.map((item, index) => {
+                        return <option key={index}>{item.name}</option>;
+                      })}
+                    </select>
+                    {this.state.leaveType === "" && this.state.showError ? (
+                      <small className="text-danger">
+                        Leave type is required
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <div className="form-group">
+                    <label htmlFor="begin">
+                      Begin
+                      <input
+                        type="date"
+                        id="begin"
+                        name="start"
+                        min={date}
+                        value={this.state.startTime}
+                        onChange={this.handleStartTime}
+                        required
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="form-group">
+                    <label htmlFor="end">
+                      To
+                      <input
+                        type="date"
+                        name="end"
+                        value={this.state.stopTime}
+                        onChange={this.handleStopTime}
+                        min={this.state.startTime}
+                        id="end"
+                        required
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="form-group">
+                    <label htmlFor="duration">
+                      Duration
+                      <input
+                        type="text"
+                        value={
+                          this.state.diffStartTimeStopTime.includes("-")
+                            ? "0 Days"
+                            : this.state.diffStartTimeStopTime
+                        }
+                        id="duration"
+                        name="duration"
+                        disabled
+                      />
+                    </label>
+                    {(this.state.diffStartTimeStopTime === "0 Days" ||
+                      this.state.diffStartTimeStopTime.includes("-")) &&
+                    this.state.showError ? (
+                      <small className="text-danger">
+                        Duration must be more than 0 Days
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <div className="form-group">
+                    <label htmlFor="reason">
+                      <h6>Reason for the time-off request</h6>
+                    </label>
+                    <textarea
+                      name="comment"
+                      onChange={this.handeleLeaveReason}
+                      id="reason"
+                      rows="3"
+                      className="form-control"
+                      required
+                    />
+                    {this.state.leaveReason === "" && this.state.showError ? (
+                      <small className="text-danger">
+                        Precise comment about opting for the leave is required
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-4">
-                  <div className="form-group">
-                    <label htmlFor="begin">Begin
-                      <input type="date" id="begin" name="start" min={date} value={this.state.startTime} onChange={this.handleStartTime} required />
-                    </label>
-                  </div>
-              </div>
-              <div className="col-4">
-                  <div className="form-group">
-                    <label htmlFor="end">To
-                      <input type="date" name="end" value={this.state.stopTime} onChange={this.handleStopTime} min={this.state.startTime} id="end" required />
-                    </label>
-                  </div>
-              </div>
-              <div className="col-4">
-                <div className="form-group">
-                  <label htmlFor="duration">
-                    <input type="text" value={this.state.diffStartTimeStopTime.includes('-')
-                      ? '0 Days'
-                      : this.state.diffStartTimeStopTime} id="duration" name="duration" disabled/>
-                  </label>
-                  {
-                    ((this.state.diffStartTimeStopTime === '0 Days' || this.state.diffStartTimeStopTime.includes('-')) && this.state.showError)
-                    ? <small className="text-danger">Duration must be more than 0 Days</small>
-                    : ''
-                  }
-                </div>
-              </div>
+            <div className="card-footer">
+              <button
+                onClick={this.handleFormSubmit}
+                className="my-1 btn btn-primary"
+              >
+                Submit Request
+              </button>
             </div>
-            <div className="row">
-              <div className="col-12">
-                  <div className="form-group">
-                    <label htmlFor="reason"><h6>Reason for the time-off request</h6>
-                      <textarea style={{width:"100%"}} name="comment" onChange={this.handeleLeaveReason} id="reason" rows="3" className="form-control" required></textarea>
-                    </label>
-                    {
-                   (this.state.leaveReason === '' && this.state.showError)
-                   ?<small className="text-danger">Precise comment about opting for the leave is required</small>
-                   :''
-                  }
-                  </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer">
-            <button onClick={this.handleFormSubmit} className="my-1 btn btn-primary btn-lg">Submit Request</button>
           </div>
         </div>
-      </div>   
-      <Footer/>
-    </React.Fragment>
-    )
+        <Footer />
+      </React.Fragment>
+    );
   }
 }
