@@ -186,7 +186,7 @@ export default class AbsenceForm extends Component {
       <React.Fragment>
         <EmployeeHeader />
         <div className="container absence mt-3 align-center">
-          <div className="card align-center my-auto">
+          <div className="card align-center my-auto bg-secondary">
             <div className="card-header text-center">
               <h5>{FillForm}</h5>
             </div>
