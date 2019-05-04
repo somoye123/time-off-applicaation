@@ -37,7 +37,7 @@ export default class TeamViewDashboard extends Component {
       console.log(this.state.request);
       console.log(this.state.user);
     } catch (err) {
-console.log(err);
+      console.log(err);
     }
   }
   render() {
@@ -49,51 +49,43 @@ console.log(err);
           <h5 className="text-danger text-center my-4">
             TimeOff Yet To Be Approved Or Declined
           </h5>
-          {this.state.loading ? (
-            <p>Automatically loads and updates requests if any</p>
+          {request.length === 0 ? (
+            <h6>Request will Load Automatically If Any</h6>
           ) : (
-            ""
-          )}
-          <table className="container table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Employee</th>
-                <th scope="col">Department</th>
-                <th scope="col">Leave Type</th>
-                <th scope="col">Leave Period</th>
-                <th scope="col">Duration</th>
-                <th scope="col">Leave Reason</th>
-                <th scope="col" />
-                <th scope="col" />
-              </tr>
-            </thead>
-            
-            <tbody>
-              {request.map((item, index) => (
-                <tr key={index}>
-                  <td>{`${user.firstName} ${user.lastName}`}</td>
-                  <td>{user.department}</td>
-                  <td>{item.leaveType}</td>
-                  <td>{`${item.startDate} To ${item.stopDate}`}</td>
-                  <td>{item.duration}</td>
-                  <td>{item.leaveReason}</td>
-                  <td>
-                    <button className="btn btn-success mr-2">
-                      Approve
-                    </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-danger">Decline</button>
-                  </td>
+            <table className="container table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Employee</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Leave Type</th>
+                  <th scope="col">Leave Period</th>
+                  <th scope="col">Duration</th>
+                  <th scope="col">Leave Reason</th>
+                  <th scope="col" />
+                  <th scope="col" />
                 </tr>
-              ))}
-            </tbody>
-
-            
-          </table>
-          <h5 className="text-success text-center my-4">
-            Approved Request
-          </h5>
+              </thead>
+              <tbody>
+                {request.map((item, index) => (
+                  <tr key={index}>
+                    <td>{`${user.firstName} ${user.lastName}`}</td>
+                    <td>{user.department}</td>
+                    <td>{item.leaveType}</td>
+                    <td>{`${item.startDate} To ${item.stopDate}`}</td>
+                    <td>{item.duration}</td>
+                    <td>{item.leaveReason}</td>
+                    <td>
+                      <button className="btn btn-success mr-2">Approve</button>
+                    </td>
+                    <td>
+                      <button className="btn btn-danger">Decline</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <h5 className="text-success text-center my-4">Approved Request</h5>
           <table className="container table mb-5 py-3">
             <thead>
               <tr>
