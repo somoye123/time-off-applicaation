@@ -216,7 +216,7 @@ export default class AbsenceForm extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-10 col-md-4">
+                <div className="col-10 col-md-6 col-lg-4">
                   <div className="form-group">
                     <label htmlFor="begin">
                       Begin
@@ -232,7 +232,7 @@ export default class AbsenceForm extends Component {
                     </label>
                   </div>
                 </div>
-                <div className="col-10 col-md-4">
+                  <div className="col-10 col-md-6 col-lg-4">
                   <div className="form-group">
                     <label htmlFor="end">
                       To

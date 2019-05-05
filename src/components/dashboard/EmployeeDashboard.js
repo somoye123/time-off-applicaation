@@ -180,7 +180,7 @@ export default class EmployeeDashboard extends Component {
             {this.state.allLeaveRequest.length > 0 ? (
               this.state.allLeaveRequest.map((item, index) => {
                 return (
-                  <div key={index} className="col-md-3 ">
+                  <div key={index} className="col-md-3 my-3">
                     <Calendar
                       value={[
                         new Date(item.startDate),
