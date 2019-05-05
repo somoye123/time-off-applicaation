@@ -6,9 +6,7 @@ import Footer from "../footer/footer";
 
 export default class TeamViewDashboard extends Component {
   state = {
-    user: "",
     request: [],
-    loading: true
   };
 
   async componentDidMount() {
@@ -16,13 +14,7 @@ export default class TeamViewDashboard extends Component {
       const token = localStorage.getItem("employee-token");
 
       if (!token) return this.props.history.push("/Login");
-
-      const profile = await axios.get(`${env.api}/employee/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
+      
       const leave = await axios.get(`${env.api}/leave`, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -30,18 +22,15 @@ export default class TeamViewDashboard extends Component {
       });
 
       this.setState({
-        user: profile.data.data,
         request: leave.data.data,
         loading: false
       });
-      console.log(this.state.request);
-      console.log(this.state.user);
     } catch (err) {
       console.log(err);
     }
   }
   render() {
-    const { user, request } = this.state;
+        const {request} = this.state;
     return (
       <React.Fragment>
         <EmployeeHeader />
@@ -68,8 +57,8 @@ export default class TeamViewDashboard extends Component {
               <tbody>
                 {request.map((item, index) => (
                   <tr key={index}>
-                    <td>{`${user.firstName} ${user.lastName}`}</td>
-                    <td>{user.department}</td>
+                    <td>{`${item.employee.firstName} ${item.employee.lastName}`}</td>
+                    <td>{item.employee.department}</td>
                     <td>{item.leaveType}</td>
                     <td>{`${item.startDate} To ${item.stopDate}`}</td>
                     <td>{item.duration}</td>
