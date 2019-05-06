@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import Navbar1 from "../Navbars/AuthNavbar";
 import env from "../../env";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
-const LetterRegex = RegExp(/^[A-Za-z]+$/);
+const LetterRegex = RegExp(/^[A-Za-z]([a-zA-Z0-9.-_,]|[- %@.#&!])*$/);
 
 const formvalid = ({ formErrors, ...rest }) => {
   let valid = true;
@@ -28,10 +29,6 @@ const formvalid = ({ formErrors, ...rest }) => {
 export default class SignUp extends Component {
   constructor(props) {
     super(props);
-    this.errorSate = {
-      companyNameError: false
-    };
-
     this.state = {
       companyName: null,
       firstName: null,
@@ -42,8 +39,6 @@ export default class SignUp extends Component {
       manager: null,
       password: null,
       invaildError: false,
-      errorResponse: false,
-      successResponse: false,
       formErrors: {
         companyName: "",
         firstName: "",
@@ -55,6 +50,7 @@ export default class SignUp extends Component {
         password: ""
       }
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -62,13 +58,14 @@ export default class SignUp extends Component {
 
     if (token) return this.props.history.push("/employee-dashboard");
   }
-  storeToLocalstorage = data => {
-    localStorage.setItem("employee-token", data);
-  };
 
- handleSubmit = e => {
-  e.preventDefault();
-  if (formvalid(this.state)) {
+  storeToLocalstorage(data) {
+    localStorage.setItem("employee-token", data);
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    if (formvalid(this.state)) {
       const body = {
         companyName: this.state.companyName,
         firstName: this.state.firstName,
@@ -79,23 +76,21 @@ export default class SignUp extends Component {
         email: this.state.email,
         password: this.state.password
       };
-     axios.post(`${env.api}/employee/SignUp`, body).then((data)=> {
-
-       const token = data.data.data.token;
-       this.storeToLocalstorage(token);
-       alert("Details submitted successful.");
-       this.props.history.push("/employee-dashboard");
-     }).catch(error => {
-
-       const errorMsg = error.response;
-       this.setState({ errorResponse: errorMsg });
-       console.log(error.response);
-     })
-    
-  } else {
-    this.setState({ invaildError: true });
+      try {
+        const data = await axios.post(`${env.api}/employee/SignUp`, body);
+        const token = data.data.data.token;
+        this.storeToLocalstorage(token);
+        Swal.fire("Success", "Details submitted successful.", "success");
+        this.props.history.push("/employee-dashboard");
+      } catch (error) {
+        const errorMsg = error.response.data.message;
+        console.log(error);
+        alert(`${errorMsg}`);
+      }
+    } else {
+      this.setState({ invaildError: true });
+    }
   }
-};
 
   handleChange = e => {
     e.preventDefault();
@@ -173,13 +168,6 @@ export default class SignUp extends Component {
             onSubmit={this.handleSubmit}
             noValidate
           >
-            {/* {this.state.errorResponse ? (
-              <div className="alert alert-danger">
-                {this.state.errorResponse}
-              </div>
-            ) : (
-              ""
-            )} */}
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label htmlFor="companyName">Company Name</label>
@@ -295,7 +283,7 @@ export default class SignUp extends Component {
                 ) : (
                   ""
                 )}
-                {<span className=""></span>}
+                {<span className="" />}
               </div>
             </div>
 
@@ -377,22 +365,13 @@ export default class SignUp extends Component {
                 </datalist>
               </div>
             </div>
-            {/* <button type="submit" className="btn btn-primary">Register</button> */}
-            {formvalid(this.state) ? (
-              <button
-                onClick={this.handleSubmit}
-                type="button"
-                className="btn btn-primary text-light"
-              >
-                <Link className="text-light" to="/employee-dashboard">
-                  Create Account
-                </Link>
-              </button>
-            ) : (
-              <button type="submit" className="btn btn-primary text-light">
-                Create Account
-              </button>
-            )}
+            <button
+              onClick={this.handleSubmit}
+              type="button"
+              className="btn btn-primary text-light"
+            >
+              Create Account
+            </button>
             <small>
               Already have an account?<Link to="/Login">Login</Link>
             </small>

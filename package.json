@@ -15,7 +15,8 @@
     "react-dom": "^16.8.4",
     "react-infinite-calendar": "^2.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "sweetalert2": "^8.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
