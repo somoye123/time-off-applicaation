@@ -3,6 +3,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Link } from "react-router-dom";
 
 export default class DashboardNavbar extends Component {
+  handleLogout = () => {
+    localStorage.clear("employee-token");
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -43,8 +47,11 @@ export default class DashboardNavbar extends Component {
               </li>
             </ul>
             <form action="" className="form-inline">
-              <Link to="/login">
-                <button className="btn btn-outline-danger my-sm-0 mx-auto">
+              <Link to="/Login">
+                <button
+                  className="btn btn-outline-danger my-sm-0 mx-auto"
+                  onClick={this.handleLogout}
+                >
                   Log Out
                 </button>
               </Link>

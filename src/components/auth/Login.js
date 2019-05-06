@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Navbar1 from "../Navbars/AuthNavbar";
 import env from "../../env";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import Footer from "../footer/footer.js";
 
 const emailRegex = RegExp(
@@ -33,12 +33,12 @@ export default class Login extends Component {
       email: null,
       password: null,
       invalidError: false,
-      errResponse: false,
       formErrors: {
         email: "",
         password: ""
       }
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -47,29 +47,29 @@ export default class Login extends Component {
     if (token) return this.props.history.push("/employee-dashboard");
   }
 
-  storeToLocalstorage = data => {
+  storeToLocalstorage(data){
     localStorage.setItem("employee-token", data);
   };
 
- handleSubmit = e => {
-    e.preventDefault();
-    if (formvalid(this.state)) {
-        let user = { email: this.state.email, password: this.state.password };
-        axios.post(`${env.api}/employee/login`, user).then(data => {
-          const token = data.data.data.token;
-          this.storeToLocalstorage(token);
-          alert("Details submitted successful.");
-          this.props.history.push("/employee-dashboard");
-        }).catch(err => {
-
-          const errorMsg = err.response
-          this.setState({ errResponse: errorMsg });
-          console.log(errorMsg);
-        });
-    } else {
-      this.setState({ invaildError: true });
+async handleSubmit(e){
+  e.preventDefault();
+  if (formvalid(this.state)) {
+    let user = { email: this.state.email, password: this.state.password };
+    try {
+      const data = await axios.post(`${env.api}/employee/login`, user);
+      const token = data.data.data.token;
+      this.storeToLocalstorage(token);
+      Swal.fire("Success", "Details submitted successful.", "success");
+      this.props.history.push("/employee-dashboard");
+    } catch (error) {
+      const errorMsg = error.response.data.message;
+      console.log(error);
+      alert(`${errorMsg}`);      
     }
+  } else {
+    this.setState({ invaildError: true });
   }
+}
 
   handleChange = e => {
     e.preventDefault();
@@ -110,13 +110,6 @@ export default class Login extends Component {
             noValidate
             style={{ padding: "2% 20%" }}
           >
-            {this.state.errResponse ? (
-              <div className="alert alert-danger text-center">
-                {this.state.errResponse}
-              </div>
-            ) : (
-                ""
-              )}
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -155,21 +148,13 @@ export default class Login extends Component {
               {<span className="text-danger">{formErrors.password}</span>}
             </div>
 
-            {formvalid(this.state) ? (
-              <button
-                onClick={this.handleSubmit}
-                type="button"
-                className="btn btn-primary text-light"
-              >
-                <Link className="text-light" to="/employee-dashboard">
-                  Login
-                </Link>
-              </button>
-            ) : (
-                <button type="submit" className="btn btn-primary text-light">
-                  Login
-              </button>
-              )}
+            <button
+              onClick={this.handleSubmit}
+              type="button"
+              className="btn btn-primary text-light"
+            >
+              Login
+            </button>
           </form>
         </div>
         <Footer />
