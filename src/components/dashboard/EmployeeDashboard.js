@@ -58,7 +58,7 @@ export default class EmployeeDashboard extends Component {
 
       this.setState({
         loading: false,
-        user: res.data.data,
+        user: res.data.profile,
         allLeaveRequest: request,
         slicedRequest: sliced
       });
@@ -102,7 +102,7 @@ export default class EmployeeDashboard extends Component {
                 </div>
                 <div className="card-body">
                   <h1>10 Days</h1>
-                  <h6>Out Of 20 Working Days</h6>
+                  <h6>{`Out Of ${this.state.user.numberOfLeave} Working Days`}</h6>
                 </div>
               </div>
             </div>

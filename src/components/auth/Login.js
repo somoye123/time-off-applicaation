@@ -33,6 +33,7 @@ export default class Login extends Component {
       email: null,
       password: null,
       invalidError: false,
+      errResponse: false,
       formErrors: {
         email: "",
         password: ""
@@ -47,29 +48,54 @@ export default class Login extends Component {
     if (token) return this.props.history.push("/employee-dashboard");
   }
 
-  storeToLocalstorage(data){
+  storeToLocalstorage(data) {
     localStorage.setItem("employee-token", data);
+  }
+
+  displaySuccessAlert() {
+    Swal.fire(
+      "Success",
+      "verification message has been sented",
+      "success"
+    ).then(() => {
+      document.querySelector("input[name=email]").value = "";
+      document.querySelector("input[name=password]").value = "";
+    });
+  }
+
+  resendMail = async () => {
+    this.setState({ errResponse: false });
+    try {
+      const body = { email: this.state.email };
+      await axios.post(`${env.api}/employee/Resend`, body);
+      this.displaySuccessAlert();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-async handleSubmit(e){
-  e.preventDefault();
-  if (formvalid(this.state)) {
-    let user = { email: this.state.email, password: this.state.password };
-    try {
-      const data = await axios.post(`${env.api}/employee/login`, user);
-      const token = data.data.data.token;
-      this.storeToLocalstorage(token);
-      Swal.fire("Success", "Details submitted successful.", "success");
-      this.props.history.push("/employee-dashboard");
-    } catch (error) {
-      const errorMsg = error.response.data.message;
-      console.log(error);
-      alert(`${errorMsg}`);      
+  async handleSubmit(e) {
+    e.preventDefault();
+    if (formvalid(this.state)) {
+      this.setState({ errResponse: false });
+      let body = { email: this.state.email, password: this.state.password };
+      try {
+        const data = await axios.post(`${env.api}/employee/login`, body);
+        const token = data.data.token;
+        this.storeToLocalstorage(token);
+        Swal.fire("Success", "Details submitted successful.", "success");
+        this.props.history.push("/employee-dashboard");
+      } catch (err) {
+        const errorMsg = err.response
+          ? err.response.data.message
+          : err.response;
+        this.setState({ errResponse: errorMsg });
+        alert(`${errorMsg}`);
+      }
+    } else {
+      this.setState({ invaildError: true });
     }
-  } else {
-    this.setState({ invaildError: true });
   }
-}
 
   handleChange = e => {
     e.preventDefault();
@@ -80,16 +106,16 @@ async handleSubmit(e){
         formErrors.email = emailRegex.test(value) ? (
           ""
         ) : (
-            <p className="text-danger">Provide a valid email address</p>
-          );
+          <p className="text-danger">Provide a valid email address</p>
+        );
         break;
       case "password":
         formErrors.password =
           value.length < 7 ? (
             <p className="text-danger">Weak password</p>
           ) : (
-              <p className="text-success">Strong password</p>
-            );
+            <p className="text-success">Strong password</p>
+          );
         break;
       default:
         break;
@@ -124,8 +150,8 @@ async handleSubmit(e){
               {this.state.invaildError && this.state.email === null ? (
                 <p className="text-danger">* Email is required</p>
               ) : (
-                  ""
-                )}
+                ""
+              )}
               {<span className="text-danger">{formErrors.email}</span>}
             </div>
 
@@ -143,16 +169,12 @@ async handleSubmit(e){
               {this.state.invaildError && this.state.password === null ? (
                 <p className="text-danger">* Password is required</p>
               ) : (
-                  ""
-                )}
+                ""
+              )}
               {<span className="text-danger">{formErrors.password}</span>}
             </div>
 
-            <button
-              onClick={this.handleSubmit}
-              type="button"
-              className="btn btn-primary text-light"
-            >
+            <button type="submit" className="btn btn-primary text-light">
               Login
             </button>
           </form>

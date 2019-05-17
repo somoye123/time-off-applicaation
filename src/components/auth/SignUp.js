@@ -38,6 +38,7 @@ export default class SignUp extends Component {
       dob: null,
       manager: null,
       password: null,
+      listOfCountry: null,
       invaildError: false,
       formErrors: {
         companyName: "",
@@ -53,14 +54,26 @@ export default class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("employee-token");
-
-    if (token) return this.props.history.push("/employee-dashboard");
+  displaySuccessAlert() {
+    Swal.fire(
+      "Success",
+      `Please Verify Your Email Address.
+      Kindly check spam if not found in Inbox`,
+      "success"
+    ).then(() => {
+      this.props.history.push("/employee-dashboard");
+    });
   }
 
-  storeToLocalstorage(data) {
-    localStorage.setItem("employee-token", data);
+  async componentDidMount() {
+    const token = localStorage.getItem("employee-token");
+    if (token) return this.props.history.push("/employee-dashboard");
+    try {
+      const res = await axios.get("https://restcountries.eu/rest/v2/all");
+      this.setState({ listOfCountry: res.data });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async handleSubmit(e) {
@@ -77,11 +90,8 @@ export default class SignUp extends Component {
         password: this.state.password
       };
       try {
-        const data = await axios.post(`${env.api}/employee/SignUp`, body);
-        const token = data.data.data.token;
-        this.storeToLocalstorage(token);
-        Swal.fire("Success", "Details submitted successful.", "success");
-        this.props.history.push("/employee-dashboard");
+        await axios.post(`${env.api}/employee/SignUp`, body);
+        this.displaySuccessAlert();
       } catch (error) {
         const errorMsg = error.response.data.message;
         console.log(error);
@@ -338,13 +348,17 @@ export default class SignUp extends Component {
                   list="countryList"
                 />
                 <datalist id="countryList">
-                  <option value="Nigeria" />
-                  <option value="Ghana" />
-                  <option value="Angola" />
-                  <option value="Zambia" />
-                  <option value="Togo" />
-                  <option value="Senegal" />
-                  <option value="South Africa" />
+                  {this.state.listOfCountry && this.state.listOfCountry.length
+                    ? this.state.listOfCountry.map((item, index) => {
+                        return <option key={index} value={item.name} />;
+                      })
+                    : (<option value="Nigeria" />,
+                      <option value="Ghana" />,
+                      <option value="Angola" />,
+                      <option value="Zambia" />,
+                      <option value="Togo" />,
+                      <option value="Senegal" />,
+                      <option value="South Africa" />)}
                 </datalist>
               </div>
 
@@ -365,11 +379,7 @@ export default class SignUp extends Component {
                 </datalist>
               </div>
             </div>
-            <button
-              onClick={this.handleSubmit}
-              type="button"
-              className="btn btn-primary text-light"
-            >
+            <button type="button" onClick={this.handleSubmit} className="btn btn-primary text-light">
               Create Account
             </button>
             <small>
